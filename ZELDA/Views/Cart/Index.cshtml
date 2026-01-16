@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "Cart";
+}
+
+<section id="page-header" class="cart-header">
+    <h2>#cart</h2>
+    <p class="txt">Add your cupon code & save up to 70%!</p>
+</section>
+
+<section id="cart" class="section-p1">
+    <table width="100%">
+
+        <thead>
+            <tr>
+                <td>Remove</td>
+                <td>Image</td>
+                <td>Product</td>
+                <td>Price</td>
+                <td>Quantity</td>
+                <td>Subtotal</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td><i class="fa-regular fa-circle-xmark"></i></td>
+                <td><img src="../foto/clothes/f4.jpg" alt=""></td>
+                <td>Pink Daisy crochet cardigan</td>
+                <td>78€</td>
+                <td> <input type="number" value="1"> </td>
+                <td>78€</td>
+            </tr>
+
+            <tr>
+                <td><i class="fa-regular fa-circle-xmark"></i></td>
+                <td><img src="../foto/bags/b1.jpeg" alt=""></td>
+                <td>Violet Flower Bag</td>
+                <td>45€</td>
+                <td> <input type="number" value="1"> </td>
+                <td>45€</td>
+            </tr>
+
+            <tr>
+                <td><i class="fa-regular fa-circle-xmark"></i></td>
+                <td><img src="../foto/accessories/a2.jpg" alt=""></td>
+                <td>Starshape keychain </td>
+                <td>10€</td>
+                <td> <input type="number" value="1"> </td>
+                <td>10€</td>
+            </tr>
+        </tbody>
+
+    </table>
+
+</section>
+
+<section id="cart-add" class="section-p1">
+    <div id="cupon">
+        <h3>Apply Cupon</h3>
+        <div>
+            <input id="cupon-value" type="text" placeholder="Enter Your Cupon">
+            <button id="cupon-btn">Apply</button>
+        </div>
+    </div>
+
+    <div id="subtotal">
+        <h3>Cart Totals</h3>
+        <table>
+            <tr>
+                <td>Cart Subtotal</td>
+                <td>133€</td>
+            </tr>
+            <tr>
+                <td>Shipping</td>
+                <td>Free</td>
+            </tr>
+
+            <tr>
+                <td><strong>Total</strong></td>
+                <td><strong>133€</strong></td>
+            </tr>
+        </table>
+        <button>Proceed to checkout</button>
+    </div>
+
+</section>

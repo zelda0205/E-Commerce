@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - ZELDA</title>
+
+    <link rel="stylesheet" href="~/ZELDA.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="@Url.Content("~/css/styles.css")" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.css">
+    
+    <script type="importmap"></script>
+    <script src="https://kit.fontawesome.com/a5c6f1f7ce.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.js"></script>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+</head>
+
+<body id="body">
+
+    <section id="hamburger">
+        <a asp-action="Index" asp-controller="Home" class="logo-hamburger">
+            <div class="hamburger-icon" id="hamburger-icon">&#9776;</div>
+            <div>
+                <img src="../foto/logo-2.png" class="logo">
+            </div>
+        </a>
+
+        <div id="hamburger-menu">
+            <ul class="navbar-hamburger">
+                <li> <a class="active" asp-action="Index" asp-controller="Home">Home</a> </li>
+                <li> <a asp-action="Shop" asp-controller="Home">Shop</a> </li>
+                <li> <a asp-action="About" asp-controller="Home">About</a> </li>
+                <li> <a asp-action="Contact" asp-controller="Home">Contact</a> </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Cart">
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="header">
+        <a asp-action="Index" asp-controller="Home"> <img src="../foto/logo-2.png" id="logo"> </a>
+        <div>
+            <ul class="navbar">
+                <li> <a class="active" asp-action="Index" asp-controller="">Home</a> </li>
+                <li> <a asp-action="Shop" asp-controller="Home">Shop</a> </li>
+                <li> <a asp-action="About" asp-controller="Home">About</a> </li>
+                <li> <a asp-action="Contact" asp-controller="Home">Contact</a> </li>
+                <li>
+                    <a asp-action="Index" asp-controller="Cart">
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <div>
+        @RenderBody()
+    </div>
+
+    <footer class="section-p1">
+        <div class="col">
+            <h4>Contact</h4>
+            <p><strong>Address:</strong> Tirane, Albania</p>
+            <p><strong>Phone:</strong> +355689470432</p>
+            <p><strong>Hours:</strong> 10:00-18:00, Mon-Sat</p>
+        </div>
+
+        <div class="col">
+            <h4>Follow Us</h4>
+            <div class="icon">
+                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-twitter"></i>
+                <i class="fa-brands fa-instagram"></i>
+                <i class="fa-brands fa-pinterest"></i>
+                <i class="fa-brands fa-youtube"></i>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About Us</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Contact Us</a>
+
+        </div>
+
+        <div class="copyright">
+            <p>
+            <p>Copyright © ZELDA</p>
+            </p>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/contact.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+
+</html>
