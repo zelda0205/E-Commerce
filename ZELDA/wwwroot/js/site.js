@@ -1,9 +1,10 @@
-﻿new Glider(document.querySelector('.glider'), {
-    slidesToShow: 6,
+﻿/*new Glider(document.querySelector('.glider'), {
+     slidesToShow: 6,
     slidesToScroll: 1,
     draggable: true,
     dots: '.dots',
 });
+*/
 
 ScrollReveal().reveal('.heroReveal');
 ScrollReveal().reveal('.featureReveal', { delay: 500 });

@@ -523,26 +523,6 @@ body {
         z-index: 1;
     }
 
-#banner2 .banner-box2 {
-    background-image: url("../foto/banner-5.jpg");
-}
-
-#banner2 .banner-box3 {
-    background-image: url("../foto/banner-3.jpg");
-}
-
-#banner2 h2 {
-    color: white;
-    font-weight: 900;
-    font-size: 25px;
-}
-
-#banner2 h3 {
-    color: rgb(201, 222, 116);
-    font-weight: 900;
-    font-size: 15px;
-}
-
 #newsletter {
     margin-top: 40px;
     display: flex;

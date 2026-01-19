@@ -37,21 +37,42 @@
     </div>
 </section>
 
-<section id="feature" class="section-p1">
-    <div class="fe-box">
-        <img src="../foto/clothes-f.webp" class="f-img">
-        <h6>CLOTHES</h6>
+<section id="product1" class="section-p1 featureProductsReveal">
+    <div class="pro-cotainer">
 
-    </div>
-    <div class="fe-box">
-        <img src="../foto/aksesor-f.avif" class="f-img">
-        <h6>ACCESSORIES</h6>
+        <div class="pro">
+            <img src="../foto/clothes-f.webp" alt="">
+            <div class="des">
+                <!--  <button id="category-clothes" class="btn-primary">CLOTHES </button> -->
+                <form asp-controller="Home" asp-action="Clothes" method="get">
+                    <button type="submit" class="btn-primary">
+                        Go to Clothes
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="pro">
+            <img src="../foto/aksesor-f.avif" alt="">
+            <div class="des">
+                <form asp-controller="Home" asp-action="Accessories" method="get">
+                    <button type="submit" class="btn-primary">
+                        Go to Accessories
+                    </button>
+                </form>
+            </div>
+        </div>
+        <div class="pro">
+            <img src="../foto/bags-f.avif" alt="">
+            <div class="des">
+                <form asp-controller="Home" asp-action="Bags" method="get">
+                    <button type="submit" class="btn-primary">
+                        Go to Bags
+                    </button>
+                </form>
+            </div>
+        </div>
 
-    </div>
 
-    <div class="fe-box">
-        <img src="../foto/bags-f.avif" class="f-img">
-        <h6>BAGS</h6>
 
     </div>
 </section>

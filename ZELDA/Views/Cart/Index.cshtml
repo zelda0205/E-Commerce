@@ -1,11 +1,12 @@
 ﻿@{
-    ViewData["Title"] = "Cart";
+    ViewData["Title"] = "Checkout";
 }
 
 <section id="page-header" class="cart-header">
     <h2>#cart</h2>
     <p class="txt">Add your cupon code & save up to 70%!</p>
 </section>
+
 
 <section id="cart" class="section-p1">
     <table width="100%">
@@ -22,6 +23,16 @@
         </thead>
 
         <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td><img src="@item.ImageUrl" width="80" /></td>
+                    <td>@item.Name</td>
+                    <td>@item.Price €</td>
+                    <td>@item.Quantity</td>
+                    <td>@(item.Price* item.Quantity) €</td>
+                </tr>
+            }
             <tr>
                 <td><i class="fa-regular fa-circle-xmark"></i></td>
                 <td><img src="../foto/clothes/f4.jpg" alt=""></td>

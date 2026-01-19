@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using ZELDA.ViewModels;
 namespace ZELDA.Models
 {
     public class User
@@ -27,8 +27,7 @@ namespace ZELDA.Models
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public ICollection<Cart> Carts { get; set; }
+        //public ICollection<CartViewModel> Carts { get; set; }
         public ICollection<Order> Orders { get; set; }
-        public ICollection<Review> Reviews { get; set; }
     }
 }

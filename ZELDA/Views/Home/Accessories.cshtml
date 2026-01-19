@@ -1,97 +1,37 @@
 ﻿@{
-    
+    ViewData["Title"] = "Accessories";
 }
-@model IEnumerable<Product>
-<!-- hero section-->
-<section id="hero" class="hero-carousel heroReveal">
-    <div class="slide slide1"></div>
-    <div class="slide slide2"></div>
-    <div class="slide slide3"></div>
 
-    <div class="hero-content">
-        <span id="firstText" class="tagline"></span>
-        <h1>Woven by Hand</h1>
-        <h2>Worn by Heart</h2>
-        <p>A World Where Fashion Meets Soul</p>
-        
-        <form asp-controller="Home" asp-action="Shop" method="get">
-            <button class="btn-primary">Shop Now</button>
-        </form>
-    </div>
-</section>
-
-<!--feature section-->
 
 <section id="product1" class="section-p1 featureProductsReveal">
-    <h2>Categories</h2>
-    <p>Find Your Style</p>
-    <div class="pro-cotainer">
-       
-        <div class="pro">
-            <img src="../foto/clothes-f.webp" alt="">
-            <div class="des">
-                <!--  <button id="category-clothes" class="btn-primary">CLOTHES </button> -->
-                <form asp-controller="Home" asp-action="Clothes" method="get">
-                    <button type="submit" class="btn-primary">
-                        Go to Clothes
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="pro">
-            <img src="../foto/aksesor-f.avif" alt="">
-            <div class="des">
-                <form asp-controller="Home" asp-action="Accessories" method="get">
-                    <button type="submit" class="btn-primary">
-                        Go to Accessories
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="pro">
-            <img src="../foto/bags-f.avif" alt="">
-            <div class="des">
-                <form asp-controller="Home" asp-action="Bags" method="get">
-                    <button type="submit" class="btn-primary">
-                        Go to Bags
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        
-
-    </div>
+    <h2>Accessories</h2>
+    <p></p>
 </section>
 
+<section id="product1" class="section-p1">
 
-<!--Featured Products-->
-<section id="product1" class="section-p1 featureProductsReveal">
-    <h2>Featured Products</h2>
-    <p>Summer Collection New Modern Designs</p>
     <div class="pro-cotainer">
+
+
         <div class="pro">
-    <img src="../foto/clothes/f1.jpg" alt="Product Image">
-    <div class="des">
-        <h5>Beige and Red Crochet Dress - Two-Piece Dress</h5>
-        <div class="star">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
+            <img src="../foto/accessories/a2.jpg" alt="">
+            <div class="des">
+                <h5>Starshape keychain </h5>
+                <div class="star">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="shopping-cart-container">
+                    <h4>10€</h4>
+                    <a href="">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                </div>
+            </div>
         </div>
-        <div class="shopping-cart-container">
-            <h4>95€</h4>
-            <a asp-controller="Cart"
-               asp-action="AddToCart"
-               asp-route-id="product.ProductID"
-               class="cart-icon">
-                <i class="fa-solid fa-bag-shopping"></i> <!-- Shopping bag icon -->
-            </a>
-        </div>
-    </div>
-</div>
 
         <div class="pro">
             <img src="../foto/accessories/a6.jpg" alt="">
@@ -106,26 +46,6 @@
                 </div>
                 <div class="shopping-cart-container">
                     <h4>19.50€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/bags/b2.jpg" alt="">
-            <div class="des">
-                <h5> Flower bag, daisy purse </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>43€</h4>
                     <a href="">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
@@ -154,9 +74,9 @@
         </div>
 
         <div class="pro">
-            <img src="../foto/clothes/f2.webp" alt="">
+            <img src="../foto/accessories/a2.jpg" alt="">
             <div class="des">
-                <h5>Pink Crochet Skirt Set </h5>
+                <h5>Starshape keychain </h5>
                 <div class="star">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -165,7 +85,7 @@
                     <i class="fas fa-star"></i>
                 </div>
                 <div class="shopping-cart-container">
-                    <h4>89.99€</h4>
+                    <h4>10€</h4>
                     <a href="">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
@@ -173,10 +93,11 @@
             </div>
         </div>
 
+
         <div class="pro">
-            <img src="../foto/bags/b1.jpeg" alt="">
+            <img src="../foto/accessories/a6.jpg" alt="">
             <div class="des">
-                <h5> Violet Flower Bag </h5>
+                <h5> Scrunchie “Fanny” </h5>
                 <div class="star">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -185,7 +106,7 @@
                     <i class="fas fa-star"></i>
                 </div>
                 <div class="shopping-cart-container">
-                    <h4>45€</h4>
+                    <h4>19.50€</h4>
                     <a href="">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
@@ -193,10 +114,11 @@
             </div>
         </div>
 
+
         <div class="pro">
-            <img src="../foto/clothes/f3.webp" alt="">
+            <img src="../foto/accessories/a5.jpeg" alt="">
             <div class="des">
-                <h5> Floral Crop Top Mini Split Skirt Set</h5>
+                <h5> Headband Pattern </h5>
                 <div class="star">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -205,7 +127,26 @@
                     <i class="fas fa-star"></i>
                 </div>
                 <div class="shopping-cart-container">
-                    <h4>105€</h4>
+                    <h4>35€</h4>
+                    <a href="">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="pro">
+            <img src="../foto/accessories/a2.jpg" alt="">
+            <div class="des">
+                <h5>Starshape keychain </h5>
+                <div class="star">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="shopping-cart-container">
+                    <h4>10€</h4>
                     <a href="">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
@@ -213,10 +154,11 @@
             </div>
         </div>
 
+
         <div class="pro">
-            <img src="../foto/clothes/f4.jpg" alt="">
+            <img src="../foto/accessories/a6.jpg" alt="">
             <div class="des">
-                <h5>Pink Daisy crochet cardigan </h5>
+                <h5> Scrunchie “Fanny” </h5>
                 <div class="star">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
@@ -225,45 +167,45 @@
                     <i class="fas fa-star"></i>
                 </div>
                 <div class="shopping-cart-container">
-                    <h4>78€</h4>
+                    <h4>19.50€</h4>
                     <a href="">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
                 </div>
             </div>
+        </div>
 
 
 
+
+
+
+        <div class="pro">
+            <img src="../foto/accessories/a5.jpeg" alt="">
+            <div class="des">
+                <h5> Headband Pattern </h5>
+                <div class="star">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="shopping-cart-container">
+                    <h4>35€</h4>
+                    <a href="">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                    </a>
+                </div>
+            </div>
         </div>
 
     </div>
+
 </section>
 
-<!--banners-->
-<section id="sm-banner" class="section-p1 bannersReveal">
-    <div class="banner-box">
-        <h4>crazy deals</h4>
-        <h2>buy 1 get 1 free</h2>
-        <span> From cozy clothing to timeless bags and delicate accessories</span>
-        <form asp-controller="Home" asp-action="Shop" method="get">
-            <button class="white">Learn More</button>
-        </form>
-    </div>
-    <div class="banner-box banner-box2">
-        <h4>spring/summer</h4>
-        <h2>upcoming season</h2>
-        <span> a world where fashion meets soul ZELDA</span>
-        <form asp-controller="Home" asp-action="Shop" method="get">
-            <button class="white">Learn More</button>
-        </form>
-        
-    </div>
-</section>
 
-
-
-<!--newsletter-->
-<section id="newsletter" class="section-p1 newsletterReveal">
+<section id="newsletter" class="section-p1">
     <div class="newstext">
         <h4>Sign Up For Newsletters</h4>
         <p>Get E-mail updates about our latest shop and <span>special offers</span> </p>

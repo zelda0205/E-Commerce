@@ -17,7 +17,7 @@ namespace ZELDA.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.11")
+                .HasAnnotation("ProductVersion", "9.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -224,50 +224,6 @@ namespace ZELDA.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ZELDA.Models.Cart", b =>
-                {
-                    b.Property<int>("CartID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartID"));
-
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("CartID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("Carts");
-                });
-
-            modelBuilder.Entity("ZELDA.Models.CartItem", b =>
-                {
-                    b.Property<int>("CartItemID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartItemID"));
-
-                    b.Property<int>("CartID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("CartItemID");
-
-                    b.HasIndex("CartID");
-
-                    b.HasIndex("ProductID");
-
-                    b.ToTable("CartItems");
-                });
-
             modelBuilder.Entity("ZELDA.Models.Category", b =>
                 {
                     b.Property<int>("CategoryID")
@@ -393,7 +349,7 @@ namespace ZELDA.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageID"));
 
-                    b.Property<string>("ImageURL")
+                    b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -405,39 +361,6 @@ namespace ZELDA.Migrations
                     b.HasIndex("ProductID");
 
                     b.ToTable("ProductImages");
-                });
-
-            modelBuilder.Entity("ZELDA.Models.Review", b =>
-                {
-                    b.Property<int>("ReviewID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReviewID"));
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ReviewID");
-
-                    b.HasIndex("ProductID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("ZELDA.Models.User", b =>
@@ -476,7 +399,7 @@ namespace ZELDA.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("Users");
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -530,36 +453,6 @@ namespace ZELDA.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ZELDA.Models.Cart", b =>
-                {
-                    b.HasOne("ZELDA.Models.User", "User")
-                        .WithMany("Carts")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ZELDA.Models.CartItem", b =>
-                {
-                    b.HasOne("ZELDA.Models.Cart", "Cart")
-                        .WithMany("CartItems")
-                        .HasForeignKey("CartID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ZELDA.Models.Product", "Product")
-                        .WithMany("CartItems")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("ZELDA.Models.Order", b =>
                 {
                     b.HasOne("ZELDA.Models.User", "User")
@@ -595,7 +488,7 @@ namespace ZELDA.Migrations
                     b.HasOne("ZELDA.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -612,30 +505,6 @@ namespace ZELDA.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("ZELDA.Models.Review", b =>
-                {
-                    b.HasOne("ZELDA.Models.Product", "Product")
-                        .WithMany("Reviews")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ZELDA.Models.User", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("ZELDA.Models.Cart", b =>
-                {
-                    b.Navigation("CartItems");
-                });
-
             modelBuilder.Entity("ZELDA.Models.Category", b =>
                 {
                     b.Navigation("Products");
@@ -648,22 +517,14 @@ namespace ZELDA.Migrations
 
             modelBuilder.Entity("ZELDA.Models.Product", b =>
                 {
-                    b.Navigation("CartItems");
-
                     b.Navigation("OrderItems");
 
                     b.Navigation("ProductImages");
-
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("ZELDA.Models.User", b =>
                 {
-                    b.Navigation("Carts");
-
                     b.Navigation("Orders");
-
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

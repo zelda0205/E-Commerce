@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ZELDA.ViewModels;
 
 namespace ZELDA.Models
 {
@@ -26,7 +27,5 @@ namespace ZELDA.Models
 
         public ICollection<ProductImage>? ProductImages { get; set; }
         public ICollection<OrderItem>? OrderItems { get; set; }
-        public ICollection<CartItem>? CartItems { get; set; }
-        public ICollection<Review>? Reviews { get; set; }
     }
 }
