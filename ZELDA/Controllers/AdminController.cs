@@ -25,7 +25,8 @@ namespace ZELDA.Controllers
             return View();
         }
 
-        [HttpPost]
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> BlockUser(string id)
         {
@@ -39,7 +40,8 @@ namespace ZELDA.Controllers
             return RedirectToAction(nameof(Users));
         }
 
-        [HttpPost]
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> UnblockUser(string id)
         {
@@ -53,6 +55,8 @@ namespace ZELDA.Controllers
             return RedirectToAction(nameof(Users));
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
         {
@@ -63,9 +67,6 @@ namespace ZELDA.Controllers
             }
             return RedirectToAction(nameof(Users));
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
     }
 }
