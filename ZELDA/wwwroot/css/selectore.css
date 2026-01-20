@@ -1,0 +1,64 @@
+﻿/* Container for SelectRole page */
+.selectrole-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #eef2f7; /* slightly different background from login/register */
+}
+
+/* Card for role selection */
+.selectrole-card {
+    background: #fff;
+    padding: 40px 50px;
+    border-radius: 14px;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+    /* Heading */
+    .selectrole-card h2 {
+        margin-bottom: 30px;
+        color: #222;
+    }
+
+    /* Role buttons */
+    .selectrole-card .role-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 140px;
+        padding: 15px;
+        margin: 0 15px;
+        border-radius: 10px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-decoration: none;
+        color: #fff;
+        transition: 0.3s;
+    }
+
+        .selectrole-card .role-btn i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+
+        /* User role button */
+        .selectrole-card .role-btn.user-btn {
+            background-color: #007bff;
+        }
+
+            .selectrole-card .role-btn.user-btn:hover {
+                background-color: #0056b3;
+            }
+
+        /* Admin role button */
+        .selectrole-card .role-btn.admin-btn {
+            background-color: #dc3545;
+        }
+
+            .selectrole-card .role-btn.admin-btn:hover {
+                background-color: #b02a37;
+            }

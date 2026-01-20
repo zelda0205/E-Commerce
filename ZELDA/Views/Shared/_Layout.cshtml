@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 
 <html lang="en">
 
@@ -7,8 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>@ViewData["Title"] - ZELDA</title>
-
-    <link rel="stylesheet" href="~/ZELDA.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/forms.css" />
+    <link rel="stylesheet" href="~/css/selectore.css" />
+    <link rel="stylesheet" href="~/css/styles.css"  />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="@Url.Content("~/css/styles.css")" />
@@ -40,6 +42,11 @@
                 <li> <a asp-action="About" asp-controller="Home">About</a> </li>
                 <li> <a asp-action="Contact" asp-controller="Home">Contact</a> </li>
                 <li>
+                    <a asp-action="SelectRole" asp-controller="Account">
+                        <i class="fa-solid fa-user" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
                     <a asp-action="Index" asp-controller="Cart">
                         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                     </a>
@@ -57,10 +64,24 @@
                 <li> <a asp-action="About" asp-controller="Home">About</a> </li>
                 <li> <a asp-action="Contact" asp-controller="Home">Contact</a> </li>
                 <li>
+                    <a asp-controller="Account" asp-action="RegisterLogin">
+                        <i class="fa-solid fa-user" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
                     <a asp-action="Index" asp-controller="Cart">
                         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                     </a>
                 </li>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+               {
+                  <li class="nav-item">
+                    <a class="nav-link text-warning fw-bold" asp-controller="Admin" asp-action="Dashboard">
+                            Admin
+                    </a>
+                 </li>
+               }
+              
             </ul>
         </div>
     </section>

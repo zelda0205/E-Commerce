@@ -1,0 +1,56 @@
+﻿@model List<ApplicationUser>
+
+<h2>Users Management</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Email</td>
+                <td>
+                    @if (user.IsBlocked)
+                    {
+                        <span class="badge bg-danger">Blocked</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">Active</span>
+                    }
+                </td>
+                <td class="d-flex gap-2">
+
+                    @if (!user.IsBlocked)
+                    {
+                        <form asp-action="BlockUser" method="post">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button class="btn btn-warning btn-sm">Block</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form asp-action="UnblockUser" method="post">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <button class="btn btn-success btn-sm">Unblock</button>
+                        </form>
+                    }
+
+                    <form asp-action="DeleteUser" method="post">
+                        <input type="hidden" name="id" value="@user.Id" />
+                        <button class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure?')">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
