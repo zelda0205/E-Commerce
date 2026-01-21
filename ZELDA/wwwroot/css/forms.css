@@ -1,6 +1,4 @@
-﻿/*ADMIN/USER REGISTER/LOGIN*/
-/* Full screen center */
-.full-screen-center {
+﻿.full-screen-center {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,7 +7,25 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Card styling */
+.create-product-container,
+.view-categories-container,
+.edit-category-container,
+.view-products-container,
+.edit-product-container,
+.delete-product-container,
+.view-news-letters-container,
+.delete-news-letter-container {
+    padding: 60px 60px 20px 60px;
+}
+
+.text-danger {
+    color: red;
+}
+
+.input-validation-error{
+    border: 1px solid red !important;
+}
+
 .form-card {
     background: #ffffff;
     padding: 40px 30px;
@@ -44,7 +60,10 @@
         color: #555;
     }
 
-    .form-group input {
+    .form-group input,
+    .form-group textarea,
+    .form-group select
+    {
         width: 100%;
         padding: 10px 12px;
         border: 1px solid #ddd;
@@ -55,8 +74,6 @@
 
         .form-group input:focus {
             outline: none;
-            border-color: #ff4b5c;
-            box-shadow: 0 0 5px rgba(255, 75, 92, 0.5);
         }
 
 .text-danger {
@@ -98,7 +115,6 @@
             text-decoration: underline;
         }
 
-/* Form-check styling */
 .form-check {
     display: flex;
     align-items: center;
@@ -109,7 +125,6 @@
     color: #555;
 }
 
-/*SELECT ROLE PAGE*/
 .full-screen-center {
     display: flex;
     justify-content: center;
@@ -119,7 +134,6 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Card styling */
 .form-card {
     background: #ffffff;
     padding: 50px 30px;
@@ -142,7 +156,6 @@
         font-weight: 700;
     }
 
-/* Role buttons container */
 .role-buttons {
     display: flex;
     gap: 20px;
@@ -185,7 +198,6 @@
         font-size: 20px;
     }
 
-/* Responsive adjustments */
 @media (max-width: 500px) {
     .role-buttons {
         flex-direction: column;

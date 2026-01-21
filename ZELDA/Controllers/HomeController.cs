@@ -9,57 +9,21 @@ namespace ZELDA.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
 
-        public HomeController(
-            ILogger<HomeController> logger,
-            ApplicationDbContext context)
+        public HomeController(ApplicationDbContext context)
         {
-            _logger = logger;
             _context = context;
         }
 
         public IActionResult Index()
         {
-            var products = new List<Product>
-    {
-        new Product
-        {
-            ProductID = 1,
-            Name = "Beige and Red Crochet Dress",
-            Description = "A beautiful beige and red crochet dress perfect for summer outings.",
-            Price = 95.00m,
-            ProductImages = new List<ProductImage>
-            {
-                new ProductImage
-                {
-                    ImageUrl = "/foto/clothes/f1.jpg"
-                }
-            }
-        }
-    };
-            return View(products); ;
+            return View(GetProductsAndCategories());
         }
 
-        public IActionResult Shop(int id=1)
+        public IActionResult Shop()
         {
-            var product = new Product
-            {
-                ProductID = 1,
-                Name = "Beige and Red Crochet Dress",
-                Description = "A beautiful beige and red crochet dress perfect for summer outings.",
-                Price = 95.00m,
-                ProductImages = new List<ProductImage>
-        {
-            new ProductImage
-            {
-                ImageUrl = "/foto/clothes/f1.jpg"
-            }
-        }
-            };
-
-            return View(product); // passes a single product to Shop.cshtml
+            return View(GetProductsAndCategories());
         }
 
         public IActionResult About()
@@ -91,6 +55,19 @@ namespace ZELDA.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private ProductAndCategoryViewModel GetProductsAndCategories()
+        {
+            var products = _context.Products.ToList();
+            var categories = _context.Categories.ToList();
+
+            return new ProductAndCategoryViewModel
+            {
+                Products = products,
+                Categories = categories
+            };
+
         }
     }
 }

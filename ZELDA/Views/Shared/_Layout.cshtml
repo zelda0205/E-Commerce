@@ -10,19 +10,17 @@
     <title>@ViewData["Title"] - ZELDA</title>
     <link rel="stylesheet" href="~/css/forms.css" />
     <link rel="stylesheet" href="~/css/selectore.css" />
-    <link rel="stylesheet" href="~/css/styles.css"  />
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <link rel="stylesheet" href="~/css/tableStyles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="@Url.Content("~/css/styles.css")" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pVnbBqk9Fe8C9iLq4Cj4fq6KQvSz2R9p2D5tO0LZCqHjc6/7ecJzQ70nPZGy6djV9sjcDQxDq7XkBvFZ9oX4fA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <script type="importmap"></script>
     <script src="https://kit.fontawesome.com/a5c6f1f7ce.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/glider-js@1/glider.min.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script src="https://code.jquery.com/jquery-4.0.0.js" integrity="sha256-9fsHeVnKBvqh3FB2HYu7g2xseAZ5MlN6Kz/qnkASV8U=" crossorigin="anonymous"></script>
 </head>
 
 <body id="body">
@@ -63,25 +61,32 @@
                 <li> <a asp-action="Shop" asp-controller="Home">Shop</a> </li>
                 <li> <a asp-action="About" asp-controller="Home">About</a> </li>
                 <li> <a asp-action="Contact" asp-controller="Home">Contact</a> </li>
-                <li>
-                    <a asp-controller="Account" asp-action="RegisterLogin">
-                        <i class="fa-solid fa-user" aria-hidden="true"></i>
-                    </a>
-                </li>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-warning fw-bold" asp-controller="Admin" asp-action="Dashboard">
+                            Admin
+                        </a>
+                    </li>
+                }
+
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        <a asp-area="Identity" asp-page="/Account/Login">
+                            <i class="fa-solid fa-user" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li> <a asp-action="LogOut" asp-controller="Account">Log Out</a> </li>
+                }
                 <li>
                     <a asp-action="Index" asp-controller="Cart">
                         <i class="fa fa-shopping-bag" aria-hidden="true"></i>
                     </a>
                 </li>
-                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-               {
-                  <li class="nav-item">
-                    <a class="nav-link text-warning fw-bold" asp-controller="Admin" asp-action="Dashboard">
-                            Admin
-                    </a>
-                 </li>
-               }
-              
             </ul>
         </div>
     </section>
@@ -90,6 +95,22 @@
         @RenderBody()
     </div>
 
+    <section id="newsletter" class="section-p1 newsletterReveal">
+        <div class="newstext">
+            <h4>Sign Up For Newsletters</h4>
+            <p>Get E-mail updates about our latest shop and <span>special offers</span></p>
+        </div>
+
+        <form id="newsletter-form">
+            @Html.AntiForgeryToken()
+
+            <div class="form">
+                <input id="input-email" name="Email" type="email" placeholder="Your email address" required />
+                <button type="submit" id="btn-sign-up">Sign Up</button>
+            </div>
+        </form>
+    </section>
+    
     <footer class="section-p1">
         <div class="col">
             <h4>Contact</h4>
@@ -129,8 +150,32 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="../js/script.js"></script>
     <script src="../js/contact.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
+    <script>
+        $(document).ready(function () {
+
+            $("#newsletter-form").submit(function (e) {
+                e.preventDefault();
+
+                var email = $("#input-email").val();
+                var token = $('input[name="__RequestVerificationToken"]').val();
+
+                $.ajax({
+                    url: '/NewsLetters/Create',
+                    type: 'POST',
+                    data: {
+                        Email: email,
+                        __RequestVerificationToken: token
+                    }
+                });
+            });
+
+        });
+    </script>
 </body>
 
 </html>

@@ -9,10 +9,12 @@ namespace ZELDA.Controllers
     public class ProductsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ProductsController(ApplicationDbContext context)
+        public ProductsController(ApplicationDbContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            _hostEnvironment = hostEnvironment;
         }
 
         // GET:Products
@@ -22,25 +24,6 @@ namespace ZELDA.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET:Products/Details
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.ProductID == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            return View(product);
-        }
-
         // GET: Products/Create
         public IActionResult Create()
         {
@@ -48,13 +31,22 @@ namespace ZELDA.Controllers
             return View();
         }
 
-        // POST: Products/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductID,Name,Description,Price,Stock,CategoryID,CreatedAt")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductID,Name,Description,Price,Stock,CategoryID,ImageFile")] Product product)
         {
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(product.ImageFile!.FileName);
+                string extension = Path.GetExtension(product.ImageFile.FileName);
+                product.Image = fileName += DateTime.Now.ToString("yymmssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/ProductsImages", fileName);
+
+                using (var fileSteam = new FileStream(path, FileMode.Create))
+                    await product.ImageFile.CopyToAsync(fileSteam);
+
+                product.CreatedAt = DateTime.Now;
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -83,7 +75,7 @@ namespace ZELDA.Controllers
         // POST: Products/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductID,Name,Description,Price,Stock,CategoryID,CreatedAt")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductID,Name,Description,Price,Stock,CategoryID,ImageFile")] Product product)
         {
             if (id != product.ProductID)
             {
@@ -94,7 +86,25 @@ namespace ZELDA.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    var existingProduct = await _context.Products!.FirstOrDefaultAsync(x => x.ProductID.Equals(id));
+
+                    var imagePath = Path.Combine(_hostEnvironment.WebRootPath + "\\ProductsImages", existingProduct!.Image!);
+
+                    if (System.IO.File.Exists(imagePath))
+                    {
+                        System.IO.File.Delete(imagePath);
+                    }
+
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(product.ImageFile!.FileName);
+                    string extension = Path.GetExtension(product.ImageFile.FileName);
+                    product.Image = fileName += DateTime.Now.ToString("yymmssfff") + extension;
+                    string path = Path.Combine(wwwRootPath + "/ProductsImages", fileName);
+
+                    using (var fileSteam = new FileStream(path, FileMode.Create))
+                        await product.ImageFile.CopyToAsync(fileSteam);
+
+                    _context.Entry(existingProduct).CurrentValues.SetValues(product);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -133,14 +143,21 @@ namespace ZELDA.Controllers
             return View(product);
         }
 
-        // POST:Products/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Products.FindAsync(id);
+
             if (product != null)
             {
+                var imagePath = Path.Combine(_hostEnvironment.WebRootPath + "\\ProductsImages", product.Image!);
+
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+
                 _context.Products.Remove(product);
             }
 

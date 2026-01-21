@@ -9,7 +9,9 @@
         </div>
         <div class="contact-form forma_klasa">
             <h1> Contact Us </h1>
-            <form name="forma_ime">
+            <form name="forma_ime" asp-action="Execute"
+                  asp-controller="ContactUs"
+                  method="post">
                 <input type="text" placeholder="Name" class="forma" id="emri" required />
                 <input type="text" placeholder="Email" class="forma" id="email" name="email" />
                 <textarea placeholder="Message" class="form_teksti" id="text-holder"></textarea>
@@ -18,3 +20,5 @@
         </div>
     </div>
 </div>
+
+

@@ -14,25 +14,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-/*
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-*/
-
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-{
-    options.Lockout.AllowedForNewUsers = true; // Enable lockout for new users
-    options.Lockout.MaxFailedAccessAttempts = 5;// Lockout after 5 failed attempts
-})
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders()
     .AddDefaultUI();
 
-
 builder.Services.AddControllersWithViews();
-
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -64,16 +51,6 @@ app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
-
-app.MapControllerRoute(
-    name: "areas",
-    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
-);
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
@@ -83,7 +60,6 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 await UserSeeds.SeedUsersAndRolesAsync(app, builder.Configuration);
-await OrdersSeeds.SeedOrders(app, builder.Configuration);
-
+await CategorySeeder.SeedCategories(app);
 
 app.Run();

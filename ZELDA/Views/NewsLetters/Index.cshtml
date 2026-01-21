@@ -1,20 +1,20 @@
-﻿@model IEnumerable<ZELDA.Models.Category>
+﻿@model IEnumerable<ZELDA.Models.NewsLetter>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<div class="view-categories-container">
+<div class="view-news-letters-container">
 
-    <h1>Categories</h1>
+    <h1>News Letters</h1>
 
     <div class="table-wrapper">
         <table class="modern-table">
             <thead>
                 <tr>
-                    <th>@Html.DisplayNameFor(model => model.CategoryID)</th>
-                    <th>@Html.DisplayNameFor(model => model.Name)</th>
-                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+                    <th>@Html.DisplayNameFor(model => model.Id)</th>
+                    <th>@Html.DisplayNameFor(model => model.Email)</th>
+                    <th>@Html.DisplayNameFor(model => model.SubscribedAt)</th>
                     <th></th>
                 </tr>
             </thead>
@@ -23,16 +23,16 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CategoryID)
+                            @Html.DisplayFor(modelItem => item.Id)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Name)
+                            @Html.DisplayFor(modelItem => item.Email)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Description)
+                            @Html.DisplayFor(modelItem => item.SubscribedAt)
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.CategoryID">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
                 }

@@ -1,6 +1,9 @@
-﻿@model ZELDA.Models.Product
+﻿@using ZELDA.ViewModels
+
+@model ProductAndCategoryViewModel
+
 @{
-    
+    ViewData["Title"] = "Shop";
 }
 
 <section id="page-header" class="banner-box">
@@ -8,273 +11,61 @@
     <p class="txt">Save more with cupons & up to 70% off!</p>
 </section>
 
+<section id="filters" class="section-p1">
+    <form method="get" asp-controller="Shop" asp-action="Index">
+        <div class="filter-group form-group">
+            <label for="category">Category:</label>
+            <select class="form-control" name="category" id="category">
+                <option value="">All</option>
+                @foreach (Category category in Model.Categories)
+                {
+                    <option value="@category.CategoryID">@category.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="filter-group form-group">
+            <label for="price">Price:</label>
+            <select class="form-control" name="price" id="price">
+                <option value="">All</option>
+                <option value="High">High to Low</option>
+                <option value="Low">Low to High</option>
+            </select>
+        </div>
+
+        <div class="filter-group form-group">
+            <label for="name">Name:</label>
+            <input class="form-control" type="text" name="name" placeholder="Search by name" />
+        </div>
+
+        <div class="form-group">
+            <label>‎ </label>
+            <button class="btn-filter" type="submit">Filter</button>
+        </div>
+    </form>
+</section>
+
 <section id="product1" class="section-p1">
-
     <div class="pro-cotainer">
+        @foreach (Product product in Model.Products)
+        {
+            <div class="pro">
+                <img src="/ProductsImages/@product.Image" alt="Product Image">
+                <a asp-controller="Cart"
+                   asp-action="AddToCart"
+                   asp-route-id="@product.ProductID"
+                   class="cart-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </a>
 
-        <div class="pro">
-            <img src="@Model.ProductImages.FirstOrDefault()?.ImageUrl ?? " .. /foto/clothes/f1.jpg"" alt="@Model.Name">
-
-            <a asp-controller="Cart"
-               asp-action="AddToCart"
-               asp-route-id="@Model.ProductID"
-               class="cart-icon">
-                <i class="fa-solid fa-bag-shopping"></i>
-            </a>
-
-            <div class="des">
-                <h5>@Model.Name</h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>@Model.Price€</h4>
+                <div class="des">
+                    <h5>@product.Name</h5>
+                    <div class="shopping-cart-container">
+                        <h4>@product.Price €</h4>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/accessories/a2.jpg" alt="">
-            <div class="des">
-                <h5>Starshape keychain </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>10€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="pro">
-            <img src="../foto/accessories/a6.jpg" alt="">
-            <div class="des">
-                <h5> Scrunchie “Fanny” </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>19.50€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/bags/b4.webp" alt="">
-            <div class="des">
-                <h5> Hand Woven Bag </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>43€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/clothes/f6.webp" alt="">
-            <div class="des">
-                <h5>Pink Crochet Skirt Set </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>74.99€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/bags/b2.jpg" alt="">
-            <div class="des">
-                <h5> Flower bag, daisy purse </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>43€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/accessories/a5.jpeg" alt="">
-            <div class="des">
-                <h5> Headband Pattern </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>35€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/clothes/f2.webp" alt="">
-            <div class="des">
-                <h5>Pink Crochet Skirt Set </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>89.99€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/bags/b1.jpeg" alt="">
-            <div class="des">
-                <h5> Violet Flower Bag </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>45€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/clothes/f3.webp" alt="">
-            <div class="des">
-                <h5> Floral Crop Top Mini Split Skirt Set</h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>105€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/clothes/f4.jpg" alt="">
-            <div class="des">
-                <h5>Pink Daisy crochet cardigan </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>78€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/bags/b6.jpeg" alt="">
-            <div class="des">
-                <h5>Colorful Crochet Bag </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>78€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
+        }
     </div>
 
-</section>
-
-<section id="pagination" class="section-p1">
-    <a href="#">1</a>
-    <a href="#">2</a>
-    <a href="#"><i class="fa-solid fa-arrow-right"></i></a>
-</section>
-
-<section id="newsletter" class="section-p1">
-    <div class="newstext">
-        <h4>Sign Up For Newsletters</h4>
-        <p>Get E-mail updates about our latest shop and <span>special offers</span> </p>
-    </div>
-    <div class="form">
-        <input id="input-email" type="text" placeholder="Your email address">
-        <button id="btn-sign-up">Sign Up</button>
-    </div>
 </section>

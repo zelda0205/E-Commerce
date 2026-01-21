@@ -1,0 +1,48 @@
+﻿.table-wrapper {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    overflow-x: auto;
+}
+
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Segoe UI", sans-serif;
+}
+
+    .modern-table thead {
+        background: #212529;
+        color: #ffffff;
+    }
+
+    .modern-table th,
+    .modern-table td {
+        padding: 14px 16px;
+        text-align: left;
+    }
+
+    .modern-table th {
+        font-size: 0.85rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .modern-table tbody tr {
+        border-bottom: 1px solid #e9ecef;
+        transition: background 0.2s ease;
+    }
+
+        .modern-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+    .modern-table td {
+        font-size: 0.95rem;
+        color: #343a40;
+    }
+
+    .modern-table tbody tr:last-child {
+        border-bottom: none;
+    }

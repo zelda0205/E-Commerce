@@ -162,7 +162,7 @@ body {
 
     #hero .hero-content h1,
     #hero .hero-content h2,
-    #hero .hero-content p{
+    #hero .hero-content p {
         color: white;
     }
 
@@ -205,12 +205,15 @@ body {
     5% {
         opacity: 1;
     }
+
     33% {
         opacity: 1;
     }
+
     38% {
         opacity: 0;
     }
+
     100% {
         opacity: 0;
     }
@@ -281,6 +284,8 @@ body {
     .btn-primary:hover {
         background: white;
         color: var(--primary-color);
+        border: 1px solid;
+        letter-spacing: 1px;
     }
 
 
@@ -330,7 +335,7 @@ body {
     color: black
 }
 
-.glider-track{
+.glider-track {
     justify-content: space-between !important;
     align-items: center !important;
 }
@@ -1003,7 +1008,7 @@ footer {
 
 /* Contact */
 .kontakti-container {
-    height: 90vh;
+    margin-top: 120px;
 }
 
 .kontakti {
@@ -1082,6 +1087,33 @@ footer {
     font-size: 18px;
     background: #000000;
 }
+
+#filters{
+    padding-bottom: unset !important;
+}
+
+#filters form {
+    gap: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.btn-filter {
+    padding: 10px 16px;
+    background: no-repeat;
+    outline: none;
+    border: 1px solid var(--primary-color);
+    border-radius: 20px;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: 0.3s all ease-in-out;
+}
+
+    .btn-filter:hover {
+        background-color: var(--primary-color);
+        color: #fff;
+    }
 
 
 /* Responsitivity */

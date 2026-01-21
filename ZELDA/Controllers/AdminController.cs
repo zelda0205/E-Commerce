@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ZELDA.Data;
 using ZELDA.Models;
 
 namespace ZELDA.Controllers
@@ -10,19 +11,30 @@ namespace ZELDA.Controllers
     public class AdminController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public AdminController(UserManager<ApplicationUser> userManager)
+        public AdminController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
+            _context = context;
         }
+
         public IActionResult Users()
         {
             var users = _userManager.Users.ToList();
             return View(users);
         }
+
         public IActionResult Dashboard()
         {
-            return View();
+            var model = new ViewModels.AdminDashboardViewModel
+            {
+                TotalNumberOfUsers = _userManager.Users.Count(),
+                TotalNumberOfOrders = _context.Orders.Count(),
+                TotalNumberFeedbacks = _context.ContactUs.Count()
+            };
+
+            return View(model);
         }
 
 
@@ -67,6 +79,6 @@ namespace ZELDA.Controllers
             }
             return RedirectToAction(nameof(Users));
         }
-        
+
     }
 }

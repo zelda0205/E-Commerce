@@ -6,8 +6,8 @@ namespace ZELDA.Models
     {
         public int OrderID { get; set; }
 
-        public int UserID { get; set; }
-        public User User { get; set; }
+        public int UserId { get; set; }
+        public virtual ApplicationUser? ApplicationUser { get; set; }
 
         public DateTime OrderDate { get; set; } = DateTime.Now;
 
@@ -17,7 +17,6 @@ namespace ZELDA.Models
         [MaxLength(50)]
         public string Status { get; set; } = "Pending";
 
-        // Navigation Properties
-        public ICollection<OrderItem> OrderItems { get; set; }
+        public virtual ICollection<OrderItem>? OrderItems { get; set; }
     }
 }

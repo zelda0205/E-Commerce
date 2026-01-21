@@ -18,7 +18,7 @@ namespace ZELDA.Controllers
         // GET:Orders
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Orders.Include(o => o.User);
+            var applicationDbContext = _context.Orders.Include(o => o.ApplicationUser);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -31,7 +31,7 @@ namespace ZELDA.Controllers
             }
 
             var order = await _context.Orders
-                .Include(o => o.User)
+                .Include(o => o.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.OrderID == id);
             if (order == null)
             {
@@ -59,7 +59,7 @@ namespace ZELDA.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", order.UserID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", order.UserId);
             return View(order);
         }
 
@@ -76,7 +76,7 @@ namespace ZELDA.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", order.UserID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", order.UserId);
             return View(order);
         }
 
@@ -110,7 +110,7 @@ namespace ZELDA.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", order.UserID);
+            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", order.UserId);
             return View(order);
         }
 
@@ -123,7 +123,7 @@ namespace ZELDA.Controllers
             }
 
             var order = await _context.Orders
-                .Include(o => o.User)
+                .Include(o => o.ApplicationUser)
                 .FirstOrDefaultAsync(m => m.OrderID == id);
             if (order == null)
             {

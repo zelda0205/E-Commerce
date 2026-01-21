@@ -27,7 +27,6 @@ namespace ZELDA.Controllers
         public IActionResult AddToCart(int id)
         {
             var product = _context.Products
-                .Include(p => p.ProductImages)
                 .FirstOrDefault(p => p.ProductID == id);
 
             if (product == null)
@@ -36,7 +35,7 @@ namespace ZELDA.Controllers
             var cart = GetCart();
             var item = cart.Items.FirstOrDefault(i => i.ProductID == id);
 
-            var imageUrl = product.ProductImages?.FirstOrDefault()?.ImageUrl;
+            //var imageUrl = product.FirstOrDefault()?.ImageUrl;
 
             if (item != null)
             {
@@ -49,7 +48,7 @@ namespace ZELDA.Controllers
                     ProductID = product.ProductID,
                     ProductName = product.Name,
                     Price = product.Price,
-                    ImageUrl = imageUrl,
+                    //ImageUrl = imageUrl,
                     Quantity = 1
                 });
             }

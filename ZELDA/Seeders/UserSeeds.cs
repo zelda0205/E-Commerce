@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using ZELDA.Models;
-using ZELDA.ViewModels;
+﻿using ZELDA.Models;
+using Microsoft.AspNetCore.Identity;
+
 namespace ZELDA.Seeders
 {
     public class UserSeeds
@@ -14,7 +14,6 @@ namespace ZELDA.Seeders
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-            //  Roles
             string[] roles = { "Admin", "User" };
 
             foreach (var role in roles)
@@ -25,7 +24,6 @@ namespace ZELDA.Seeders
                 }
             }
 
-            //  Admin User (from appsettings.json)
             var adminEmail = configuration["Admin:Email"];
             var adminPassword = configuration["Admin:Password"];
 

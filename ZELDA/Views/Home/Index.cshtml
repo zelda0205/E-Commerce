@@ -1,7 +1,11 @@
-﻿@{
-    
+﻿@using ZELDA.ViewModels
+
+@{
+    ViewData["Title"] = "Home";
 }
-@model IEnumerable<Product>
+
+@model ProductAndCategoryViewModel
+
 <!-- hero section-->
 <section id="hero" class="hero-carousel heroReveal">
     <div class="slide slide1"></div>
@@ -13,7 +17,7 @@
         <h1>Woven by Hand</h1>
         <h2>Worn by Heart</h2>
         <p>A World Where Fashion Meets Soul</p>
-        
+
         <form asp-controller="Home" asp-action="Shop" method="get">
             <button class="btn-primary">Shop Now</button>
         </form>
@@ -26,41 +30,30 @@
     <h2>Categories</h2>
     <p>Find Your Style</p>
     <div class="pro-cotainer">
-       
-        <div class="pro">
-            <img src="../foto/clothes-f.webp" alt="">
-            <div class="des">
-                <!--  <button id="category-clothes" class="btn-primary">CLOTHES </button> -->
-                <form asp-controller="Home" asp-action="Clothes" method="get">
-                    <button type="submit" class="btn-primary">
-                        Go to Clothes
-                    </button>
-                </form>
+        @foreach (Category category in Model.Categories)
+        {
+            <div class="pro">
+                @if (category.CategoryID == 1)
+                {
+                    <img src="../foto/clothes-f.webp" alt="">
+                }
+                else if (category.CategoryID == 2)
+                {
+                    <img src="../foto/aksesor-f.png" alt="">
+                }
+                else if (category.CategoryID == 3)
+                {
+                    <img src="../foto/bags-f.png" alt="">
+                }
+                <div class="des">
+                    <form asp-controller="Home" asp-action="Clothes" method="get">
+                        <button type="submit" class="btn-primary">
+                            Go to @category.Name
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
-        <div class="pro">
-            <img src="../foto/aksesor-f.avif" alt="">
-            <div class="des">
-                <form asp-controller="Home" asp-action="Accessories" method="get">
-                    <button type="submit" class="btn-primary">
-                        Go to Accessories
-                    </button>
-                </form>
-            </div>
-        </div>
-        <div class="pro">
-            <img src="../foto/bags-f.avif" alt="">
-            <div class="des">
-                <form asp-controller="Home" asp-action="Bags" method="get">
-                    <button type="submit" class="btn-primary">
-                        Go to Bags
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        
-
+        }
     </div>
 </section>
 
@@ -70,172 +63,25 @@
     <h2>Featured Products</h2>
     <p>Summer Collection New Modern Designs</p>
     <div class="pro-cotainer">
-        <div class="pro">
-    <img src="../foto/clothes/f1.jpg" alt="Product Image">
-    <div class="des">
-        <h5>Beige and Red Crochet Dress - Two-Piece Dress</h5>
-        <div class="star">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-        </div>
-        <div class="shopping-cart-container">
-            <h4>95€</h4>
-            <a asp-controller="Cart"
-               asp-action="AddToCart"
-               asp-route-id="product.ProductID"
-               class="cart-icon">
-                <i class="fa-solid fa-bag-shopping"></i> <!-- Shopping bag icon -->
-            </a>
-        </div>
-    </div>
-</div>
+        @foreach (Product product in Model.Products)
+        {
+            <div class="pro">
+                <img src="/ProductsImages/@product.Image" alt="Product Image">
+                <div class="des">
+                    <h5>@product.Name</h5>
 
-        <div class="pro">
-            <img src="../foto/accessories/a6.jpg" alt="">
-            <div class="des">
-                <h5> Scrunchie “Fanny” </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>19.50€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
+                    <div class="shopping-cart-container">
+                        <h4>@product.Price €</h4>
+                        <a asp-controller="Cart"
+                           asp-action="AddToCart"
+                           asp-route-id="product.ProductID"
+                           class="cart-icon">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/bags/b2.jpg" alt="">
-            <div class="des">
-                <h5> Flower bag, daisy purse </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>43€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/accessories/a5.jpeg" alt="">
-            <div class="des">
-                <h5> Headband Pattern </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>35€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/clothes/f2.webp" alt="">
-            <div class="des">
-                <h5>Pink Crochet Skirt Set </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>89.99€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/bags/b1.jpeg" alt="">
-            <div class="des">
-                <h5> Violet Flower Bag </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>45€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/clothes/f3.webp" alt="">
-            <div class="des">
-                <h5> Floral Crop Top Mini Split Skirt Set</h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>105€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="pro">
-            <img src="../foto/clothes/f4.jpg" alt="">
-            <div class="des">
-                <h5>Pink Daisy crochet cardigan </h5>
-                <div class="star">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="shopping-cart-container">
-                    <h4>78€</h4>
-                    <a href="">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </a>
-                </div>
-            </div>
-
-
-
-        </div>
-
+        }
     </div>
 </section>
 
@@ -256,20 +102,6 @@
         <form asp-controller="Home" asp-action="Shop" method="get">
             <button class="white">Learn More</button>
         </form>
-        
-    </div>
-</section>
 
-
-
-<!--newsletter-->
-<section id="newsletter" class="section-p1 newsletterReveal">
-    <div class="newstext">
-        <h4>Sign Up For Newsletters</h4>
-        <p>Get E-mail updates about our latest shop and <span>special offers</span> </p>
-    </div>
-    <div class="form">
-        <input id="input-email" type="text" placeholder="Your email address">
-        <button id="btn-sign-up">Sign Up</button>
     </div>
 </section>

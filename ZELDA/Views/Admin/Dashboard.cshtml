@@ -1,36 +1,211 @@
-﻿@{
+﻿@using ZELDA.ViewModels
+
+@model AdminDashboardViewModel
+
+@{
     ViewData["Title"] = "Admin Dashboard";
 }
 
-<h2 class="mb-4">Admin Dashboard</h2>
+<style>
+    .admin-container {
+        padding: 60px 40px 20px 40px;
+    }
 
-<a asp-action="Users" class="btn btn-primary mt-4">
-    Manage Users
-</a>
-<div class="row">
-    <div class="col-md-4">
-        <div class="card shadow-sm">
-            <div class="card-body text-center">
-                <h5>Total Users</h5>
+    .admin-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 20px;
+        margin-bottom: 40px;
+    }
+
+    .stat-card {
+        background: linear-gradient(135deg, #f8f9fa, #ffffff);
+        border-radius: 14px;
+        padding: 25px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        text-align: center;
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+
+        .stat-card p {
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .stat-card h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
+        }
+
+    .admin-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 25px;
+    }
+
+    .admin-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+        .admin-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.12);
+        }
+
+        .admin-card h3 {
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .admin-card p {
+            color: #6c757d;
+            font-size: .95rem;
+        }
+
+    .admin-actions {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 10px 14px;
+        border-radius: 10px;
+        font-weight: 600;
+        text-align: center;
+        text-decoration: none;
+        transition: all .2s ease;
+    }
+
+    .primary {
+        background: var(--primary-color);
+        color: #fff;
+    }
+
+        .primary:hover {
+            background: #fff;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+    .admin-card.border-Outline {
+        border-left: 6px solid var(--primary-color);
+    }
+
+</style>
+
+<div class="admin-container">
+
+    <h1 class="admin-title">Admin Dashboard</h1>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <p>Total Users</p>
+            @if (Model.TotalNumberOfUsers == 0)
+            {
                 <h2>--</h2>
-            </div>
+            }
+            else
+            {
+                <h2>@Model.TotalNumberOfUsers</h2>
+            }
+        </div>
+
+        <div class="stat-card">
+            <p>Total Orders</p>
+            @if (Model.TotalNumberOfOrders == 0)
+            {
+                <h2>--</h2>
+            }
+            else
+            {
+                <h2>@Model.TotalNumberOfOrders</h2>
+            }
+        </div>
+
+        <div class="stat-card">
+            <p>Feedback</p>
+            @if (Model.TotalNumberFeedbacks == 0)
+            {
+                <h2>--</h2>
+            }
+            else
+            {
+                <h2>@Model.TotalNumberFeedbacks</h2>
+            }
         </div>
     </div>
 
-    <div class="col-md-4">
-        <div class="card shadow-sm">
-            <div class="card-body text-center">
-                <h5>Total Orders</h5>
-                <h2>--</h2>
+    <div class="admin-grid">
+        <div class="admin-card border-Outline">
+            <h3>Products</h3>
+            <p>Add, edit or delete products</p>
+
+            <div class="admin-actions">
+                <a class="btn primary" asp-controller="Products" asp-action="Create">Add Product</a>
+                <a class="btn primary" asp-controller="Products" asp-action="Index">Manage Products</a>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="card shadow-sm">
-            <div class="card-body text-center">
-                <h5>Messages</h5>
-                <h2>--</h2>
+        <div class="admin-card border-Outline">
+            <h3>Categories</h3>
+            <p>View existing categories</p>
+
+            <div class="admin-actions">
+                <a class="btn primary" asp-controller="Categories" asp-action="Index">View Categories</a>
+            </div>
+        </div>
+
+        <div class="admin-card border-Outline">
+            <h3>Feedback</h3>
+            <p>View or delete feedback messages</p>
+
+            <div class="admin-actions">
+                <a class="btn primary" asp-controller="Feedback" asp-action="Index">View Feedback</a>
+                <a class="btn primary" asp-controller="Feedback" asp-action="Index">Delete Feedback</a>
+            </div>
+        </div>
+
+        <div class="admin-card border-Outline">
+            <h3>Users</h3>
+            <p>Manage registered users</p>
+
+            <div class="admin-actions">
+                <a class="btn primary" asp-action="Users" asp-controller="Admin">Manage Users</a>
+            </div>
+        </div>
+
+        <div class="admin-card border-Outline">
+            <h3>News Letter</h3>
+            <p>Manage News Letters</p>
+
+            <div class="admin-actions">
+                <a class="btn primary" asp-action="Index" asp-controller="NewsLetters">Manage News Letters</a>
+            </div>
+        </div>
+
+        <div class="admin-card border-Outline">
+            <h3>Orders</h3>
+            <p>Manage Orders By Clients</p>
+
+            <div class="admin-actions">
+                <a class="btn primary" asp-action="Users" asp-controller="Admin">Manage Orders</a>
             </div>
         </div>
     </div>
