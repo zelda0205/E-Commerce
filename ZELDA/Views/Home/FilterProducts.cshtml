@@ -1,0 +1,34 @@
+﻿@using ZELDA.ViewModels
+@model ProductAndCategoryViewModel
+
+@{
+    ViewData["Title"] = "Filter Products";
+}
+
+<section id="product1" class="section-p1 featureProductsReveal">
+    <h2>@Model.Categories.First().Name</h2>
+    <p></p>
+</section>
+
+<section id="product1" class="section-p1">
+    <div class="pro-cotainer">
+        @foreach (Product product in Model.Products)
+        {
+            <div class="pro">
+                <img src="/ProductsImages/@product.Image" alt="Product Image">
+                <div class="des">
+                    <h5>@product.Name</h5>
+                    <div class="shopping-cart-container">
+                        <h4>@product.Price €</h4>
+                        <a asp-controller="Cart"
+                           asp-action="AddToCart"
+                           asp-route-id="product.ProductID"
+                           class="cart-icon">
+                            <i class="fa-solid fa-bag-shopping"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>

@@ -51,6 +51,46 @@ namespace ZELDA.Controllers
             return View();
         }
 
+        public IActionResult FilterProducts([FromForm] IFormCollection frm_coll)
+        {
+            var categoryFilter = int.Parse(frm_coll["category"]!);
+            var priceFilter = frm_coll["price"].ToString().ToLower();
+            var nameFilter = frm_coll["name"].ToString();
+
+            var category = _context.Categories.Find(categoryFilter);
+
+            if (priceFilter == "high")
+            {
+                var productsHightToLow = _context.Products.Include(c => c.Category)
+                    .Where(p => p.CategoryID == categoryFilter && p.Name.Contains(nameFilter))
+                    .OrderByDescending(p => p.Price)
+                    .ToList();
+
+                var viewModel = new ProductAndCategoryViewModel
+                {
+                    Products = productsHightToLow,
+                    Categories = new List<Category> { category! }
+                };
+
+                return View(viewModel);
+            }
+            else
+            {
+                var productsLowToHigh = _context.Products.Include(c => c.Category)
+                    .Where(p => p.CategoryID == categoryFilter && p.Name.Contains(nameFilter))
+                    .OrderBy(p => p.Price)
+                    .ToList();
+
+                var viewModel = new ProductAndCategoryViewModel
+                {
+                    Products = productsLowToHigh,
+                    Categories = new List<Category> { category! }
+                };
+
+                return View(viewModel);
+            }
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

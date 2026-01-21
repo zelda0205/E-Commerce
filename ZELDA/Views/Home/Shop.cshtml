@@ -12,11 +12,11 @@
 </section>
 
 <section id="filters" class="section-p1">
-    <form method="get" asp-controller="Shop" asp-action="Index">
+    <form method="post" asp-controller="Home" asp-action="FilterProducts">
         <div class="filter-group form-group">
             <label for="category">Category:</label>
             <select class="form-control" name="category" id="category">
-                <option value="">All</option>
+                <option value="All">All</option>
                 @foreach (Category category in Model.Categories)
                 {
                     <option value="@category.CategoryID">@category.Name</option>
