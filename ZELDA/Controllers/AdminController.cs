@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+
 using ZELDA.Data;
 using ZELDA.Models;
 
@@ -43,9 +44,10 @@ namespace ZELDA.Controllers
         public async Task<IActionResult> BlockUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
+
             if (user != null)
             {
-                user.LockoutEnd = DateTimeOffset.MaxValue;
+                user.IsBlocked = true;
                 await _userManager.UpdateAsync(user);
             }
 
@@ -58,9 +60,10 @@ namespace ZELDA.Controllers
         public async Task<IActionResult> UnblockUser(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
+
             if (user != null)
             {
-                user.LockoutEnd = null;
+                user.IsBlocked = false;
                 await _userManager.UpdateAsync(user);
             }
 

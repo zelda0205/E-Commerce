@@ -71,11 +71,17 @@ namespace ZELDA.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                var user = await _userManager.FindByNameAsync(Input.Email);
+
+                if (user != null && user.IsBlocked)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, false, false);
 
                 if (result.Succeeded)
                 {
-                    var user = await _userManager.FindByNameAsync(Input.Email);
                     var isAdmin = await _userManager.IsInRoleAsync(user, "Admin");
 
                     if (isAdmin)

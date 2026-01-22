@@ -38,7 +38,7 @@
                 <li> <a class="active" asp-action="Index" asp-controller="Home">Home</a> </li>
                 <li> <a asp-action="Shop" asp-controller="Home">Shop</a> </li>
                 <li> <a asp-action="About" asp-controller="Home">About</a> </li>
-                <li> <a asp-action="Contact" asp-controller="Home">Contact</a> </li>
+                <li> <a asp-action="Contact" asp-controller="ContactUs">Contact</a> </li>
                 <li>
                     <a asp-action="SelectRole" asp-controller="Account">
                         <i class="fa-solid fa-user" aria-hidden="true"></i>
@@ -60,7 +60,7 @@
                 <li> <a class="active" asp-action="Index" asp-controller="">Home</a> </li>
                 <li> <a asp-action="Shop" asp-controller="Home">Shop</a> </li>
                 <li> <a asp-action="About" asp-controller="Home">About</a> </li>
-                <li> <a asp-action="Contact" asp-controller="Home">Contact</a> </li>
+                <li> <a asp-action="Contact" asp-controller="ContactUs">Contact</a> </li>
                 @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                 {
                     <li class="nav-item">
@@ -115,7 +115,6 @@
         <div class="col">
             <h4>Contact</h4>
             <p><strong>Address:</strong> Tirane, Albania</p>
-            <p><strong>Phone:</strong> +355689470432</p>
             <p><strong>Hours:</strong> 10:00-18:00, Mon-Sat</p>
         </div>
 
@@ -133,8 +132,6 @@
         <div class="col">
             <h4>About</h4>
             <a href="#">About Us</a>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms & Conditions</a>
             <a href="#">Contact Us</a>
 
         </div>

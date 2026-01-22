@@ -14,7 +14,9 @@
 .edit-product-container,
 .delete-product-container,
 .view-news-letters-container,
-.delete-news-letter-container {
+.delete-news-letter-container,
+.view-users-container,
+.view-feedbacks-container {
     padding: 60px 60px 20px 60px;
 }
 

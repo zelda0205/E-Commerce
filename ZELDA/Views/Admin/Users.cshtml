@@ -1,56 +1,81 @@
-﻿@model List<ApplicationUser>
+﻿@model IEnumerable<ZELDA.Models.ApplicationUser>
 
-<h2>Users Management</h2>
+@{
+    ViewData["Title"] = "Users";
+}
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Email</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.Email</td>
-                <td>
-                    @if (user.IsBlocked)
-                    {
-                        <span class="badge bg-danger">Blocked</span>
-                    }
-                    else
-                    {
-                        <span class="badge bg-success">Active</span>
-                    }
-                </td>
-                <td class="d-flex gap-2">
+<style>
+    .manageUsersButtons {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+</style>
 
-                    @if (!user.IsBlocked)
-                    {
-                        <form asp-action="BlockUser" method="post">
-                            <input type="hidden" name="id" value="@user.Id" />
-                            <button class="btn btn-warning btn-sm">Block</button>
-                        </form>
-                    }
-                    else
-                    {
-                        <form asp-action="UnblockUser" method="post">
-                            <input type="hidden" name="id" value="@user.Id" />
-                            <button class="btn btn-success btn-sm">Unblock</button>
-                        </form>
-                    }
 
-                    <form asp-action="DeleteUser" method="post">
-                        <input type="hidden" name="id" value="@user.Id" />
-                        <button class="btn btn-danger btn-sm"
-                                onclick="return confirm('Are you sure?')">
-                            Delete
-                        </button>
-                    </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="view-users-container">
+
+    <h1>Users</h1>
+
+    <div class="table-wrapper">
+        <table class="modern-table">
+            <thead>
+                <tr>
+                    <th>Email</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.Email</td>
+                        <td>
+                            @if (user.IsBlocked)
+                            {
+                                <span class="badge bg-danger">Blocked</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                        </td>
+                        <td class="d-flex manageUsersButtons">
+                            @if (!(user.UserName == User.Identity!.Name))
+                            {
+                                @if (!user.IsBlocked)
+                                {
+                                    <form asp-action="BlockUser" method="post">
+                                        <input type="hidden" name="id" value="@user.Id" />
+                                        <button class="btn">Block</button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form asp-action="UnblockUser" method="post">
+                                        <input type="hidden" name="id" value="@user.Id" />
+                                        <button class="btn">Unblock</button>
+                                    </form>
+                                }
+                            }
+
+                            @if (!(user.UserName == User.Identity!.Name))
+                            {
+                                <form asp-action="DeleteUser" method="post">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button class="btn"
+                                            onclick="return confirm('Are you sure?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+        </table>
+    </div>
+</div>

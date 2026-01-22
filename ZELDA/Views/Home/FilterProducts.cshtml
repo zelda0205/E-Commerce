@@ -6,7 +6,11 @@
 }
 
 <section id="product1" class="section-p1 featureProductsReveal">
-    <h2>@Model.Categories.First().Name</h2>
+    <h2>
+        @(Model.Products.Any()
+                ? "Filtered Products"
+                : "No products found")
+    </h2>
     <p></p>
 </section>
 
@@ -22,7 +26,7 @@
                         <h4>@product.Price €</h4>
                         <a asp-controller="Cart"
                            asp-action="AddToCart"
-                           asp-route-id="product.ProductID"
+                           asp-route-id="@product.ProductID"
                            class="cart-icon">
                             <i class="fa-solid fa-bag-shopping"></i>
                         </a>

@@ -1,0 +1,29 @@
+﻿@model ContactUs
+
+@{
+    ViewData["Title"] = "Contact";
+    bool isAuthenticated = User != null && User.Identity != null && User.Identity.IsAuthenticated;
+}
+
+<div class="kontakti-container">
+    <div class="kontakti">
+        <div class="kontakti_pjesa2">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2996.563225261373!2d19.821690215345004!3d41.31836450823426!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x135031d53942bf4b%3A0xc29b959022f4c53!2sAir%20Albania%20Stadium!5e0!3m2!1sen!2s!4v1622419139206!5m2!1sen!2s" width="100%" height="auto" style="border:0;" allowfullscreen="" frameborder="0" aria-hidden="false" tabindex="0"></iframe>
+        </div>
+        <div class="contact-form forma_klasa">
+            <h1> Contact Us </h1>
+            <form name="forma_ime" asp-action="Execute" asp-controller="ContactUs" method="post">
+                <input readonly="@isAuthenticated" asp-for="Name" type="text" placeholder="Name" class="forma" id="emri" required value="@Model.Name" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+
+                <input readonly="@isAuthenticated" asp-for="Email" type="text" placeholder="Email" class="forma" id="email" name="email" value="@Model.Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+
+                <textarea asp-for="Message" placeholder="Message" class="form_teksti" id="text-holder"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+
+                <input type="submit" value="Send" name="Submit" class="forma_butoni" />
+            </form>
+        </div>
+    </div>
+</div>

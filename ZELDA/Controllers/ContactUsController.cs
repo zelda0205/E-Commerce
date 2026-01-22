@@ -1,17 +1,41 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using ZELDA.Data;
+using ZELDA.Models;
 
 namespace ZELDA.Controllers
 {
     public class ContactUsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ContactUsController(ApplicationDbContext context)
+        public ContactUsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+        }
+
+        [AllowAnonymous]
+        public IActionResult Contact()
+        {
+            ContactUs model = new();
+
+            if (User != null && User.Identity != null && User.Identity.IsAuthenticated)
+            {
+                var loggedInUser = _userManager.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+
+                if (loggedInUser != null)
+                {
+                    model.Name = loggedInUser.FirstName + " " + loggedInUser.LastName;
+                    model.Email = loggedInUser.Email!;
+                }
+            }
+
+            return View(model);
         }
 
         [Authorize(Roles = "Admin")]
@@ -24,40 +48,36 @@ namespace ZELDA.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public JsonResult Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-
-            if (id == null)
-                return new JsonResult(BadRequest());
-
             var contactUs = _context.ContactUs.Find(id);
 
             if (contactUs == null)
-                return new JsonResult(NotFound());
+            {
+                return NotFound();
+            }
 
             _context.ContactUs.Remove(contactUs);
             _context.SaveChanges();
 
-            return new JsonResult(Ok());
+            return RedirectToAction(nameof(Index));
         }
 
         [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Execute(ZELDA.Models.ContactUs model)
+        public async Task<IActionResult> Execute(ContactUs model)
         {
             if (!ModelState.IsValid)
-                return RedirectToAction("Index", "Home");
+            {
+                return View("Contact", model);
+            }
+
 
             _context.ContactUs.Add(model);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Index", "Home");
-        }
-
-        private bool ContactUsExists(int id)
-        {
-            return (_context.ContactUs?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

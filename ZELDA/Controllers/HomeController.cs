@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+
 using ZELDA.Data;
 using ZELDA.Models;
 using ZELDA.ViewModels;
@@ -31,11 +32,6 @@ namespace ZELDA.Controllers
             return View();
         }
 
-        public IActionResult Contact()
-        {
-            return View();
-        }
-
         public IActionResult Clothes()
         {
             return View();
@@ -51,44 +47,46 @@ namespace ZELDA.Controllers
             return View();
         }
 
-        public IActionResult FilterProducts([FromForm] IFormCollection frm_coll)
+        [HttpPost]
+        public IActionResult FilterProducts(
+              int? category,
+              string? price,
+              string? name)
         {
-            var categoryFilter = int.Parse(frm_coll["category"]!);
-            var priceFilter = frm_coll["price"].ToString().ToLower();
-            var nameFilter = frm_coll["name"].ToString();
+   
+            var query = _context.Products
+                .Include(p => p.Category)
+                .AsQueryable();
 
-            var category = _context.Categories.Find(categoryFilter);
 
-            if (priceFilter == "high")
+            if (category.HasValue && category.Value > 0)
             {
-                var productsHightToLow = _context.Products.Include(c => c.Category)
-                    .Where(p => p.CategoryID == categoryFilter && p.Name.Contains(nameFilter))
-                    .OrderByDescending(p => p.Price)
-                    .ToList();
-
-                var viewModel = new ProductAndCategoryViewModel
-                {
-                    Products = productsHightToLow,
-                    Categories = new List<Category> { category! }
-                };
-
-                return View(viewModel);
+                query = query.Where(p => p.CategoryID == category.Value);
             }
-            else
+
+
+            if (!string.IsNullOrWhiteSpace(name))
             {
-                var productsLowToHigh = _context.Products.Include(c => c.Category)
-                    .Where(p => p.CategoryID == categoryFilter && p.Name.Contains(nameFilter))
-                    .OrderBy(p => p.Price)
-                    .ToList();
-
-                var viewModel = new ProductAndCategoryViewModel
-                {
-                    Products = productsLowToHigh,
-                    Categories = new List<Category> { category! }
-                };
-
-                return View(viewModel);
+                query = query.Where(p =>
+                    p.Name.ToLower().Contains(name.ToLower()));
             }
+
+            if (price == "High")
+            {
+                query = query.OrderByDescending(p => p.Price);
+            }
+            else if (price == "Low")
+            {
+                query = query.OrderBy(p => p.Price);
+            }
+
+            var viewModel = new ProductAndCategoryViewModel
+            {
+                Products = query.ToList(),
+                Categories = _context.Categories.ToList()
+            };
+
+            return View(viewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

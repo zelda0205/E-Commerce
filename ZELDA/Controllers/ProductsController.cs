@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 using ZELDA.Data;
 using ZELDA.Models;
 
@@ -17,20 +19,21 @@ namespace ZELDA.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
-        // GET:Products
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Products.Include(p => p.Category);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Products/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             ViewData["CategoryID"] = new SelectList(_context.Categories, "CategoryID", "Name");
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ProductID,Name,Description,Price,Stock,CategoryID,ImageFile")] Product product)
@@ -55,7 +58,7 @@ namespace ZELDA.Controllers
             return View(product);
         }
 
-        // GET: Products/Edit
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,7 +75,7 @@ namespace ZELDA.Controllers
             return View(product);
         }
 
-        // POST: Products/Edit
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ProductID,Name,Description,Price,Stock,CategoryID,ImageFile")] Product product)
@@ -124,7 +127,7 @@ namespace ZELDA.Controllers
             return View(product);
         }
 
-        // GET: Products/Delete
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -143,6 +146,7 @@ namespace ZELDA.Controllers
             return View(product);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

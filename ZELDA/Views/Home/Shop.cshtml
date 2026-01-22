@@ -16,7 +16,7 @@
         <div class="filter-group form-group">
             <label for="category">Category:</label>
             <select class="form-control" name="category" id="category">
-                <option value="All">All</option>
+                <option value="">All</option>
                 @foreach (Category category in Model.Categories)
                 {
                     <option value="@category.CategoryID">@category.Name</option>

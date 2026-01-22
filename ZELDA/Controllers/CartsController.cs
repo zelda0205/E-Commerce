@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+
 using ZELDA.Data;
-using ZELDA.Models;
 using ZELDA.ViewModels;
 
 namespace ZELDA.Controllers
@@ -16,14 +15,12 @@ namespace ZELDA.Controllers
             _context = context;
         }
 
-        //  Cart page
         public IActionResult Index()
         {
             var cart = GetCart();
             return View(cart);
         }
 
-        //Add product to cart
         public IActionResult AddToCart(int id)
         {
             var product = _context.Products

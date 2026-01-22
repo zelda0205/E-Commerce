@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using ZELDA.Data;
 using ZELDA.Models;
 
 namespace ZELDA.Controllers
 {
+
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -18,6 +22,7 @@ namespace ZELDA.Controllers
         {
             return View(await _context.Categories.ToListAsync());
         }
+
 
         public async Task<IActionResult> Edit(int? id)
         {
@@ -34,7 +39,7 @@ namespace ZELDA.Controllers
             return View(category);
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("CategoryID,Name,Description")] Category category)
