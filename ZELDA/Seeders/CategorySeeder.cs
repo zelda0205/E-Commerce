@@ -20,17 +20,17 @@ namespace ZELDA.Seeders
                     new Category
                     {
                         Name = "Clothes",
-                        Description = "maumau",
+                        Description = "crochet_clothes",
                     },
                     new Category
                     {
                         Name = "Accessories",
-                        Description = "mamau",
+                        Description = "crochet_accessories",
                     },
                     new Category
                     {
                         Name = "Bags",
-                        Description = "mamau",
+                        Description = "crochet_bags",
                     },
                 });
 

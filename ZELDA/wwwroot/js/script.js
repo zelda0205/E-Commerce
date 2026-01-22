@@ -14,6 +14,16 @@ if (close) {
   });
 }
 
+const navLinks = document.querySelectorAll('.navbar li a');
+const currentPath = window.location.pathname.toLowerCase(); // e.g. "/home/index"
+
+navLinks.forEach(link => {
+    const linkPath = link.getAttribute('href').toLowerCase(); // generated href
+    if (linkPath === currentPath || (linkPath === "/" && currentPath === "/")) {
+        link.classList.add('active');
+    }
+});
+
 // VIDEO AND AUDIO//
 const vid = document.getElementById("vid");
 const audio = document.getElementById("bgMusic");

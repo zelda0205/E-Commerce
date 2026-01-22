@@ -24,38 +24,44 @@
     </div>
 </section>
 
-<!--feature section-->
+<!--categorie section-->
 
 <section id="product1" class="section-p1 featureProductsReveal">
     <h2>Categories</h2>
     <p>Find Your Style</p>
+
     <div class="pro-cotainer">
         @foreach (Category category in Model.Categories)
         {
             <div class="pro">
-                @if (category.CategoryID == 1)
-                {
-                    <img src="../foto/clothes-f.webp" alt="">
-                }
-                else if (category.CategoryID == 2)
-                {
-                    <img src="../foto/aksesor-f.png" alt="">
-                }
-                else if (category.CategoryID == 3)
-                {
-                    <img src="../foto/bags-f.png" alt="">
-                }
-                <div class="des">
-                    <form asp-controller="Home" asp-action="Clothes" method="get">
-                        <button type="submit" class="btn-primary">
-                            Go to @category.Name
-                        </button>
-                    </form>
-                </div>
+                <form method="post" asp-controller="Home" asp-action="FilterProducts">
+
+                    <input type="hidden" name="category" value="@category.CategoryID" />
+
+                    <img src="@GetCategoryImage(category.CategoryID)"
+                         alt="@category.Name" />
+                    <button type="submit" class="btn-primary">
+                        Go to @category.Name
+                    </button>
+                </form>
             </div>
         }
     </div>
 </section>
+
+@functions {
+    string GetCategoryImage(int categoryId)
+    {
+        return categoryId switch
+        {
+            1 => "/foto/clothes-f.webp",
+            2 => "/foto/aksesor-f.png",
+            3 => "/foto/bags-f.png",
+            _ => "/foto/default.png"
+        };
+    }
+}
+
 
 
 <!--Featured Products-->
@@ -104,4 +110,20 @@
         </form>
 
     </div>
+</section>
+
+<section id="newsletter" class="section-p1 newsletterReveal">
+    <div class="newstext">
+        <h4>Sign Up For Newsletters</h4>
+        <p>Get E-mail updates about our latest shop and <span>special offers</span></p>
+    </div>
+
+    <form id="newsletter-form">
+        @Html.AntiForgeryToken()
+
+        <div class="form">
+            <input id="input-email" name="Email" type="email" placeholder="Your email address" required />
+            <button type="submit" id="btn-sign-up">Sign Up</button>
+        </div>
+    </form>
 </section>

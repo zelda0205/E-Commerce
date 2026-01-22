@@ -4,35 +4,33 @@
 @{
     ViewData["Title"] = "Filter Products";
 }
+<div class="filter-products-container" <style></style> >
 
-<section id="product1" class="section-p1 featureProductsReveal">
-    <h2>
-        @(Model.Products.Any()
-                ? "Filtered Products"
-                : "No products found")
-    </h2>
-    <p></p>
-</section>
+    <section id="product1" class="filter-products-container ">
+        <h2> @(Model.Products.Any() ? "Filtered Products" : "No products found")</h2>
+    </section>
 
-<section id="product1" class="section-p1">
-    <div class="pro-cotainer">
-        @foreach (Product product in Model.Products)
-        {
-            <div class="pro">
-                <img src="/ProductsImages/@product.Image" alt="Product Image">
-                <div class="des">
-                    <h5>@product.Name</h5>
-                    <div class="shopping-cart-container">
-                        <h4>@product.Price €</h4>
-                        <a asp-controller="Cart"
-                           asp-action="AddToCart"
-                           asp-route-id="@product.ProductID"
-                           class="cart-icon">
-                            <i class="fa-solid fa-bag-shopping"></i>
-                        </a>
+    <section id="product1" class="section-p1">
+        <div class="pro-cotainer">
+            @foreach (Product product in Model.Products)
+            {
+                <div class="pro">
+                    <img src="/ProductsImages/@product.Image" alt="Product Image">
+                    <div class="des">
+                        <h5>@product.Name</h5>
+                        <div class="shopping-cart-container">
+                            <h4>@product.Price €</h4>
+                            <a asp-controller="Cart"
+                               asp-action="AddToCart"
+                               asp-route-id="@product.ProductID"
+                               class="cart-icon">
+                                <i class="fa-solid fa-bag-shopping"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
-</section>
+            }
+        </div>
+    </section>
+
+</div>

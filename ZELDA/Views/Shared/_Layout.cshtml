@@ -35,7 +35,7 @@
 
         <div id="hamburger-menu">
             <ul class="navbar-hamburger">
-                <li> <a class="active" asp-action="Index" asp-controller="Home">Home</a> </li>
+                <li> <a asp-action="Index" asp-controller="Home">Home</a> </li>
                 <li> <a asp-action="Shop" asp-controller="Home">Shop</a> </li>
                 <li> <a asp-action="About" asp-controller="Home">About</a> </li>
                 <li> <a asp-action="Contact" asp-controller="ContactUs">Contact</a> </li>
@@ -54,10 +54,10 @@
     </section>
 
     <section id="header">
-        <a asp-action="Index" asp-controller="Home"> <img src="../foto/logo-2.png" id="logo"> </a>
+        <a asp-action="Index" asp-controller="Home"> <img src="/foto/logo-2.png" id="logo"> </a>
         <div>
-            <ul class="navbar">
-                <li> <a class="active" asp-action="Index" asp-controller="">Home</a> </li>
+            <ul class="navbar ">
+                <li> <a asp-action="Index" asp-controller="">Home</a> </li>
                 <li> <a asp-action="Shop" asp-controller="Home">Shop</a> </li>
                 <li> <a asp-action="About" asp-controller="Home">About</a> </li>
                 <li> <a asp-action="Contact" asp-controller="ContactUs">Contact</a> </li>
@@ -95,21 +95,7 @@
         @RenderBody()
     </div>
 
-    <section id="newsletter" class="section-p1 newsletterReveal">
-        <div class="newstext">
-            <h4>Sign Up For Newsletters</h4>
-            <p>Get E-mail updates about our latest shop and <span>special offers</span></p>
-        </div>
-
-        <form id="newsletter-form">
-            @Html.AntiForgeryToken()
-
-            <div class="form">
-                <input id="input-email" name="Email" type="email" placeholder="Your email address" required />
-                <button type="submit" id="btn-sign-up">Sign Up</button>
-            </div>
-        </form>
-    </section>
+   
     
     <footer class="section-p1">
         <div class="col">
@@ -131,14 +117,13 @@
 
         <div class="col">
             <h4>About</h4>
-            <a href="#">About Us</a>
-            <a href="#">Contact Us</a>
-
+            <a asp-controller="Home" asp-action="About">About Us</a>
+            <a asp-controller="ContactUs" asp-action="Contact">Contact Us</a>
         </div>
 
-        <div class="copyright">
+        <div class="copyright"> 
             <p>
-            <p>Copyright © ZELDA</p>
+            <p>Copyright © ZELDA</p> 
             </p>
         </div>
     </footer>

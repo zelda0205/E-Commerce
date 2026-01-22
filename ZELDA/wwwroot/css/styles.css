@@ -38,7 +38,7 @@ p {
 }
 
 .section-p1 {
-    padding: 40px 80px;
+    padding: 60px 60px 20px 60px;
 }
 
 body {
@@ -678,6 +678,7 @@ footer {
         text-align: center;
         font-size: 13px;
         color: #818e81;
+        margin-left:120px;
     }
 
     footer a:hover {
