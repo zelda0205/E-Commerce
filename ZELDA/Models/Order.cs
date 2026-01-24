@@ -6,16 +6,13 @@ namespace ZELDA.Models
     {
         public int OrderID { get; set; }
 
-        public int UserId { get; set; }
-        public virtual ApplicationUser? ApplicationUser { get; set; }
+        public string UserId { get; set; } = null!; // id e usersave esht string jo int.
+        public virtual ApplicationUser? User { get; set; }
 
         public DateTime OrderDate { get; set; } = DateTime.Now;
 
         [Required]
         public decimal TotalAmount { get; set; }
-
-        [MaxLength(50)]
-        public string Status { get; set; } = "Pending";
 
         public virtual ICollection<OrderItem>? OrderItems { get; set; }
     }

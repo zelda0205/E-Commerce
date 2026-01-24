@@ -1,0 +1,43 @@
+﻿@using ZELDA.ViewModels
+@model CartViewModel
+<div class="view-checkout-container">
+    <section id="cart" class="section-p1">
+        <table width="100%">
+
+            <thead>
+                <tr>
+                    <td>Image</td>
+                    <td>Product</td>
+                    <td>Quantity Price</td>
+                    <td>Quantity</td>
+                    <td> Price</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+
+                        <td>
+                            <img src="@item.ImageUrl" width="80" />
+                        </td>
+
+                        <td>@item.ProductName</td>
+
+                        <td>@item.Price €</td>
+
+                        <td>@item.Quantity</td>
+
+                        <td>@item.Total €</td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+        <br />
+        <p><strong>Total Price :</strong> @Model.GrandTotal €</p>
+        <a asp-action="Create" asp-controller="Orders" class="btn-primary">Proceed to checkout</a>
+    </section>
+
+</div>

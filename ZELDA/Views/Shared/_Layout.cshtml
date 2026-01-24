@@ -35,20 +35,36 @@
 
         <div id="hamburger-menu">
             <ul class="navbar-hamburger">
-                <li> <a asp-action="Index" asp-controller="Home">Home</a> </li>
+                <li> <a asp-action="Index" asp-controller="">Home</a> </li>
                 <li> <a asp-action="Shop" asp-controller="Home">Shop</a> </li>
                 <li> <a asp-action="About" asp-controller="Home">About</a> </li>
                 <li> <a asp-action="Contact" asp-controller="ContactUs">Contact</a> </li>
-                <li>
-                    <a asp-action="SelectRole" asp-controller="Account">
-                        <i class="fa-solid fa-user" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a asp-action="Index" asp-controller="Cart">
-                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                    </a>
-                </li>
+                @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link text-warning fw-bold" asp-controller="Admin" asp-action="Dashboard">
+                            Admin
+                        </a>
+                    </li>
+                }
+
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        <a asp-area="Identity" asp-page="/Account/Login">
+                            <i class="fa-solid fa-user" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li> <a asp-action="LogOut" asp-controller="Account">Log Out</a> </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="Cart">
+                            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                }
             </ul>
         </div>
     </section>
@@ -81,12 +97,12 @@
                 else
                 {
                     <li> <a asp-action="LogOut" asp-controller="Account">Log Out</a> </li>
+                    <li>
+                        <a asp-action="Index" asp-controller="Cart">
+                            <i class="fa fa-shopping-bag" aria-hidden="true"></i>
+                        </a>
+                    </li>
                 }
-                <li>
-                    <a asp-action="Index" asp-controller="Cart">
-                        <i class="fa fa-shopping-bag" aria-hidden="true"></i>
-                    </a>
-                </li>
             </ul>
         </div>
     </section>
@@ -95,8 +111,8 @@
         @RenderBody()
     </div>
 
-   
-    
+
+
     <footer class="section-p1">
         <div class="col">
             <h4>Contact</h4>
@@ -121,9 +137,9 @@
             <a asp-controller="ContactUs" asp-action="Contact">Contact Us</a>
         </div>
 
-        <div class="copyright"> 
+        <div class="copyright">
             <p>
-            <p>Copyright © ZELDA</p> 
+            <p>Copyright © ZELDA</p>
             </p>
         </div>
     </footer>

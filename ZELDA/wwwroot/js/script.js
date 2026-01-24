@@ -57,22 +57,6 @@ if (btnSignUp) {
   });
 }
 
-// Cuppon button at shop page
-const btnCupon = document.getElementById("cupon-btn");
-
-if (btnCupon) {
-  btnCupon.addEventListener("click", () => {
-    const cuponValue = document.getElementById("cupon-value").value;
-
-    if (cuponValue === "") {
-      alert("Cupon empty.");
-      return false;
-    }
-
-    window.location.reload()
-  });
-}
-
 // Header hide when scrolling
 let lastScrollY = window.scrollY;
 const navbar = document.querySelector('#header');

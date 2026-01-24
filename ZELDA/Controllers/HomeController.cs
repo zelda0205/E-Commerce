@@ -17,14 +17,14 @@ namespace ZELDA.Controllers
             _context = context;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(GetProductsAndCategories());
+            return View(await GetProductsAndCategories());
         }
 
-        public IActionResult Shop()
+        public async Task<IActionResult> Shop()
         {
-            return View(GetProductsAndCategories());
+            return View(await GetProductsAndCategories());
         }
 
         public IActionResult About()
@@ -48,64 +48,72 @@ namespace ZELDA.Controllers
         }
 
         [HttpPost]
-        public IActionResult FilterProducts(
+        public async Task<IActionResult> FilterProducts(
               int? category,
               string? price,
               string? name)
         {
-   
-            var query = _context.Products
-                .Include(p => p.Category)
-                .AsQueryable();
+            var selectedCategory = await _context.Categories.FirstOrDefaultAsync(c => c.CategoryID == category);
 
+            string categoryName = string.Empty;
+
+            if (selectedCategory != null)
+            {
+                categoryName = selectedCategory.Name;
+            }
+            else
+            {
+                categoryName = "All";
+            }
+
+            var products = await _context.Products.Include(p => p.Category)
+                .ToListAsync();
 
             if (category.HasValue && category.Value > 0)
             {
-                query = query.Where(p => p.CategoryID == category.Value);
+                products = products.Where(p => p.CategoryID == category.Value).ToList();
             }
-
 
             if (!string.IsNullOrWhiteSpace(name))
             {
-                query = query.Where(p =>
-                    p.Name.ToLower().Contains(name.ToLower()));
+                products = products.Where(p => p.Name.ToLower().Contains(name.ToLower())).ToList();
             }
 
             if (price == "High")
             {
-                query = query.OrderByDescending(p => p.Price);
+                products = products.OrderByDescending(p => p.Price).ToList();
             }
             else if (price == "Low")
             {
-                query = query.OrderBy(p => p.Price);
+                products = products.OrderBy(p => p.Price).ToList();
             }
 
             var viewModel = new ProductAndCategoryViewModel
             {
-                Products = query.ToList(),
-                Categories = _context.Categories.ToList()
+                Products = products,
+                Categories = _context.Categories,
+                SelectedCategory = categoryName,
             };
 
             return View(viewModel);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        private async Task<ProductAndCategoryViewModel> GetProductsAndCategories()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        private ProductAndCategoryViewModel GetProductsAndCategories()
-        {
-            var products = _context.Products.ToList();
-            var categories = _context.Categories.ToList();
+            var products = await _context.Products.ToListAsync();
+            var categories = await _context.Categories.ToListAsync();
 
             return new ProductAndCategoryViewModel
             {
                 Products = products,
                 Categories = categories
             };
+        }
 
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

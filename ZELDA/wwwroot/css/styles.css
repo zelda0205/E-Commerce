@@ -678,7 +678,7 @@ footer {
         text-align: center;
         font-size: 13px;
         color: #818e81;
-        margin-left:120px;
+        margin-left: 120px;
     }
 
     footer a:hover {
@@ -1089,16 +1089,16 @@ footer {
     background: #000000;
 }
 
-#filters{
+#filters {
     padding-bottom: unset !important;
 }
 
-#filters form {
-    gap: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
+    #filters form {
+        gap: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
 
 .btn-filter {
     padding: 10px 16px;
@@ -1116,6 +1116,9 @@ footer {
         color: #fff;
     }
 
+.checkOutBtn {
+    text-align: center !important;
+}
 
 /* Responsitivity */
 @media screen and (max-width: 1500px) {

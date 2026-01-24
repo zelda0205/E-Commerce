@@ -23,6 +23,11 @@ namespace ZELDA.Controllers
 
         public IActionResult AddToCart(int id)
         {
+            if (User != null && User.Identity != null && !User.Identity.IsAuthenticated)
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
+
             var product = _context.Products
                 .FirstOrDefault(p => p.ProductID == id);
 
@@ -32,8 +37,7 @@ namespace ZELDA.Controllers
             var cart = GetCart();
             var item = cart.Items.FirstOrDefault(i => i.ProductID == id);
 
-            //var imageUrl = product.FirstOrDefault()?.ImageUrl;
-
+          
             if (item != null)
             {
                 item.Quantity++;
@@ -45,7 +49,7 @@ namespace ZELDA.Controllers
                     ProductID = product.ProductID,
                     ProductName = product.Name,
                     Price = product.Price,
-                    //ImageUrl = imageUrl,
+                    ImageUrl = "/ProductsImages/" + product.Image,
                     Quantity = 1
                 });
             }
@@ -54,7 +58,6 @@ namespace ZELDA.Controllers
             return RedirectToAction("Index");
         }
 
-        //Remove item completely
         public IActionResult Remove(int id)
         {
             var cart = GetCart();
@@ -69,7 +72,6 @@ namespace ZELDA.Controllers
             return RedirectToAction("Index");
         }
 
-        //Increase quantity
         public IActionResult Increase(int id)
         {
             var cart = GetCart();
@@ -83,8 +85,7 @@ namespace ZELDA.Controllers
 
             return RedirectToAction("Index");
         }
-
-        //Decrease quantity
+      
         public IActionResult Decrease(int id)
         {
             var cart = GetCart();
@@ -103,7 +104,12 @@ namespace ZELDA.Controllers
             return RedirectToAction("Index");
         }
 
-        //Session helpers
+        [HttpGet]
+        public IActionResult ConfirmCheckout()
+        {
+            var cart = GetCart();
+            return View(cart);
+        }
 
         private CartViewModel GetCart()
         {
@@ -114,13 +120,12 @@ namespace ZELDA.Controllers
                 if (string.IsNullOrEmpty(cartJson))
                     return new CartViewModel();
 
-                // Safely deserialize
                 var cart = JsonConvert.DeserializeObject<CartViewModel>(cartJson);
-                return cart ?? new CartViewModel(); // fallback if deserialization fails
+
+                return cart ?? new CartViewModel(); 
             }
             catch
             {
-                // If something goes wrong (invalid JSON, etc.)
                 return new CartViewModel();
             }
         }
@@ -130,11 +135,12 @@ namespace ZELDA.Controllers
             try
             {
                 var cartJson = JsonConvert.SerializeObject(cart);
+
                 HttpContext.Session.SetString("Cart", cartJson);
             }
             catch
             {
-                // ignore failures, log errors here
+                
             }
         }
     }

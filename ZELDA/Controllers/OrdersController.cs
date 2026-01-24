@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ZELDA.Data;
 using ZELDA.Models;
+using ZELDA.ViewModels;
 
 namespace ZELDA.Controllers
 {
@@ -15,106 +18,60 @@ namespace ZELDA.Controllers
             _context = context;
         }
 
-        // GET:Orders
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Orders.Include(o => o.ApplicationUser);
+            var applicationDbContext = _context.Orders.Include(o => o.User);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET:Orders/Details
-        public async Task<IActionResult> Details(int? id)
+        [Authorize(Roles = "User,Admin")]
+        public async Task<IActionResult> Create()
         {
-            if (id == null)
+            Order order = new Order();
+
+            var cartDetails = GetCart();
+
+            order.OrderDate = DateTime.Now;
+            order.TotalAmount = cartDetails.GrandTotal;
+
+            var userEmail = HttpContext!.User!.Identity!.Name;
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
+
+            if (user == null)
             {
-                return NotFound();
+                return Unauthorized();
             }
 
-            var order = await _context.Orders
-                .Include(o => o.ApplicationUser)
-                .FirstOrDefaultAsync(m => m.OrderID == id);
-            if (order == null)
+            order.UserId = user.Id;
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+
+
+            foreach (var item in cartDetails.Items)
             {
-                return NotFound();
+                var orderItem = new OrderItem
+                {
+                    OrderID = order.OrderID,
+                    ProductID = item.ProductID,
+                    Quantity = item.Quantity,
+                    Price = item.Price
+                };
+
+                _context.Add(orderItem);
             }
 
-            return View(order);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(OrderSuccsessfull));
         }
 
-        // GET:Orders/Create
-        public IActionResult Create()
+        [Authorize(Roles = "User,Admin")]
+        public IActionResult OrderSuccsessfull()
         {
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email");
             return View();
         }
 
-        // POST: Orders/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderID,UserID,OrderDate,TotalAmount,Status")] Order order)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", order.UserId);
-            return View(order);
-        }
-
-        // GET:Orders/Edit
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Orders.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", order.UserId);
-            return View(order);
-        }
-
-        // POST: Orders/Edit
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderID,UserID,OrderDate,TotalAmount,Status")] Order order)
-        {
-            if (id != order.OrderID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.OrderID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["UserID"] = new SelectList(_context.Users, "UserID", "Email", order.UserId);
-            return View(order);
-        }
-
-        // GET:Orders/Delete
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,7 +80,7 @@ namespace ZELDA.Controllers
             }
 
             var order = await _context.Orders
-                .Include(o => o.ApplicationUser)
+                .Include(o => o.User)
                 .FirstOrDefaultAsync(m => m.OrderID == id);
             if (order == null)
             {
@@ -133,7 +90,7 @@ namespace ZELDA.Controllers
             return View(order);
         }
 
-        // POST:Orders/Delete
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -148,9 +105,23 @@ namespace ZELDA.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OrderExists(int id)
+        private CartViewModel GetCart()
         {
-            return _context.Orders.Any(e => e.OrderID == id);
+            try
+            {
+                var cartJson = HttpContext.Session.GetString("Cart");
+
+                if (string.IsNullOrEmpty(cartJson))
+                    return new CartViewModel();
+
+                var cart = JsonConvert.DeserializeObject<CartViewModel>(cartJson);
+
+                return cart ?? new CartViewModel();
+            }
+            catch
+            {
+                return new CartViewModel();
+            }
         }
     }
 }

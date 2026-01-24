@@ -4,10 +4,10 @@
 @{
     ViewData["Title"] = "Filter Products";
 }
-<div class="filter-products-container" <style></style> >
 
+<div class="filter-products-container">
     <section id="product1" class="filter-products-container ">
-        <h2> @(Model.Products.Any() ? "Filtered Products" : "No products found")</h2>
+        <h2> @(Model.Products.Any() ? Model.SelectedCategory : "No products found")</h2>
     </section>
 
     <section id="product1" class="section-p1">
@@ -32,5 +32,4 @@
             }
         </div>
     </section>
-
 </div>
