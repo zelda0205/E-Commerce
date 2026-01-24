@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using ZELDA.PersonalizedValidator;
+
 namespace ZELDA.Models
 {
     public class Category
@@ -7,7 +7,6 @@ namespace ZELDA.Models
         public int CategoryID { get; set; }
 
         [Required(ErrorMessage = "Category name is required.")]
-        [AllowedCategoryName(new string[] { "Clothes", "Accessories", "Bags" })]
         public string Name { get; set; } = null!;
 
         [MaxLength(255)]
