@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using ZELDA.Data;
@@ -21,7 +20,7 @@ namespace ZELDA.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Orders.Include(o => o.User);
+            var applicationDbContext = _context.Orders.Include(o => o.User).Include(o => o.OrderItems).ThenInclude(oi => oi.Product);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -80,8 +79,8 @@ namespace ZELDA.Controllers
             }
 
             var order = await _context.Orders
-                .Include(o => o.User)
-                .FirstOrDefaultAsync(m => m.OrderID == id);
+                 .Include(o => o.User).Include(o => o.OrderItems).ThenInclude(oi => oi.Product).FirstOrDefaultAsync(m => m.OrderID == id);
+
             if (order == null)
             {
                 return NotFound();

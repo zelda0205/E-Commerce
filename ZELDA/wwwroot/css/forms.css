@@ -18,7 +18,8 @@
 .view-users-container,
 .view-feedbacks-container,
 .view-checkout-container,
-.filter-products-container {
+.filter-products-container,
+.view-orders-container {
     padding: 60px 60px 20px 60px;
 }
 
@@ -201,6 +202,33 @@
     .role-btn i {
         font-size: 20px;
     }
+
+
+
+.order_successful {
+    padding: 280px 60px 280px 60px;
+    text-align: center;
+    font-size: 42px;
+    color: #27ae60;
+    animation: bounceIn 1s ease;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
 
 @media (max-width: 500px) {
     .role-buttons {
