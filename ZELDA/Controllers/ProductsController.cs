@@ -19,7 +19,7 @@ namespace ZELDA.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Products.Include(p => p.Category);

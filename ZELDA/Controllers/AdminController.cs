@@ -39,7 +39,6 @@ namespace ZELDA.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> BlockUser(string id)
         {
@@ -55,7 +54,6 @@ namespace ZELDA.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> UnblockUser(string id)
         {
@@ -71,7 +69,6 @@ namespace ZELDA.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
         {
