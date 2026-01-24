@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 using ZELDA.Data;
@@ -20,7 +21,7 @@ namespace ZELDA.Controllers
             var cart = GetCart();
             return View(cart);
         }
-
+        [Authorize(Roles = "Admin, User")]
         public IActionResult AddToCart(int id)
         {
             if (User != null && User.Identity != null && !User.Identity.IsAuthenticated)
@@ -58,6 +59,7 @@ namespace ZELDA.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin,User")]
         public IActionResult Remove(int id)
         {
             var cart = GetCart();
@@ -72,6 +74,7 @@ namespace ZELDA.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin,User")]
         public IActionResult Increase(int id)
         {
             var cart = GetCart();
@@ -85,7 +88,8 @@ namespace ZELDA.Controllers
 
             return RedirectToAction("Index");
         }
-      
+       
+        [Authorize(Roles = "Admin,User")]
         public IActionResult Decrease(int id)
         {
             var cart = GetCart();
@@ -104,6 +108,7 @@ namespace ZELDA.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Admin,User")]
         [HttpGet]
         public IActionResult ConfirmCheckout()
         {

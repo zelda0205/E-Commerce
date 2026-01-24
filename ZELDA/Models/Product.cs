@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using ZELDA.CustomValidators;
-using ZELDA.ViewModels;
 
 namespace ZELDA.Models
 {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+
 namespace ZELDA.Models
 {
     public class ApplicationUser : IdentityUser

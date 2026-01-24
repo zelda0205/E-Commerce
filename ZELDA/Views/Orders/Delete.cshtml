@@ -27,8 +27,8 @@
 
                     <input type="text"
                            value="@(Model.OrderItems != null && Model.OrderItems.Any()
-                                           ? string.Join(", ", Model.OrderItems.Select(oi => $"{oi.Product.Name} (x{oi.Quantity})"))
-                                           : "No items")"
+                            ? string.Join(", ", Model.OrderItems.Select(p => $"{p.Product.Name} (x{p.Quantity})"))
+                            : "No items")"
                            readonly
                            disabled
                            class="form-control" />

@@ -25,7 +25,7 @@ namespace ZELDA.Controllers
             var users = _userManager.Users.ToList();
             return View(users);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Dashboard()
         {
             var model = new ViewModels.AdminDashboardViewModel
@@ -38,7 +38,7 @@ namespace ZELDA.Controllers
             return View(model);
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> BlockUser(string id)
         {
@@ -53,7 +53,7 @@ namespace ZELDA.Controllers
             return RedirectToAction(nameof(Users));
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> UnblockUser(string id)
         {
@@ -68,7 +68,7 @@ namespace ZELDA.Controllers
             return RedirectToAction(nameof(Users));
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
         {
