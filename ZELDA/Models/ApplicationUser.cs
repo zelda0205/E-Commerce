@@ -12,7 +12,7 @@ namespace ZELDA.Models
         [Required]
         [MaxLength(100)]
         public string LastName { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         public bool IsBlocked { get; set; } = false;
     }
 }

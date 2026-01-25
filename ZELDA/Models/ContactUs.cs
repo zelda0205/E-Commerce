@@ -4,6 +4,7 @@ namespace ZELDA.Models
 {
     public class ContactUs
     {
+        [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Your name is required")]

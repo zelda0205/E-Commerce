@@ -4,6 +4,7 @@ namespace ZELDA.Models
 {
     public class Order
     {
+        [Key]
         public int OrderID { get; set; }
 
         public string UserId { get; set; } = null!; // id e usersave esht string jo int.
