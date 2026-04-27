@@ -15,7 +15,7 @@ namespace ZELDA.Controllers
         {
             _signInManager = signInManager;
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();

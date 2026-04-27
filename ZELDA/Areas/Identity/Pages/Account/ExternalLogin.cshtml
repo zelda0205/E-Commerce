@@ -1,0 +1,44 @@
+﻿@page
+@model ExternalLoginModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="full-screen-center">
+    <div class="form-card">
+        <h2>@ViewData["Title"]</h2>
+
+        <p class="text-center text-muted mb-4" style="font-size: 0.9em;">
+            You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.<br />
+            Please confirm your details below to finish logging in.
+        </p>
+
+        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group mb-2">
+                <label asp-for="Input.FirstName"></label>
+                <input asp-for="Input.FirstName" class="form-control" autocomplete="given-name" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="Input.LastName"></label>
+                <input asp-for="Input.LastName" class="form-control" autocomplete="family-name" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="email" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
