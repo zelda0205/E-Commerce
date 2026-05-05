@@ -9,6 +9,12 @@
                 <i class="fas fa-check-circle" style="margin-right: 8px;"></i> @TempData["SuccessMessage"]
             </div>
         }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div style="background-color: #f8d7da; color: #842029; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: 500; border: 1px solid #f5c2c7;">
+                <i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i> @TempData["ErrorMessage"]
+            </div>
+        }
 
         <div style="background-color: #ffffff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); border: 1px solid #e2e8f0; overflow: hidden;">
             
@@ -17,54 +23,59 @@
                     <i class="fas fa-user-circle" style="font-size: 28px;"></i>
                 </div>
                 <div>
-                    <h2 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">Profili Im</h2>
-                    <p style="margin: 5px 0 0 0; color: rgba(255, 255, 255, 0.75); font-size: 14px;">Menaxhoni të dhënat tuaja personale dhe shikoni historikun e blerjeve</p>
+                    <h2 style="margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px;">My Profile</h2>
+                    <p style="margin: 5px 0 0 0; color: rgba(255, 255, 255, 0.75); font-size: 14px;">Manage your personal data and view your purchase history</p>
                 </div>
             </div>
 
             <div style="display: flex; flex-wrap: wrap; padding: 40px; gap: 40px;">
                 
-                <div style="flex: 1; min-width: 300px; padding-right: 20px; border-right: 1px solid #edf2f7;">
-                    <h3 style="margin-top: 0; margin-bottom: 25px; font-size: 18px; font-weight: 600; color: #2d3748; display: flex; align-items: center;">
-                        <i class="fas fa-user-cog" style="color: #008080; margin-right: 10px;"></i> Të dhënat Personale
-                    </h3>
-                    
-                    <form asp-action="Update" method="post">
-                        <div asp-validation-summary="ModelOnly" style="color: #dc3545; margin-bottom: 15px; font-size: 14px;"></div>
+                <div style="flex: 1; min-width: 300px; padding-right: 20px; border-right: 1px solid #edf2f7; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <h3 style="margin-top: 0; margin-bottom: 25px; font-size: 18px; font-weight: 600; color: #2d3748; display: flex; align-items: center;">
+                            <i class="fas fa-user-cog" style="color: #008080; margin-right: 10px;"></i> Personal Data
+                        </h3>
 
                         <div style="margin-bottom: 20px;">
-                            <label asp-for="Email" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px;">Email</label>
-                            <input asp-for="Email" readonly style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #f7fafc; color: #4a5568; outline: none; font-size: 15px;" />
+                            <span style="display: block; margin-bottom: 4px; font-size: 12px; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px;">Email</span>
+                            <div style="font-size: 16px; color: #2d3748; font-weight: 500;">@Model.Email</div>
                         </div>
 
                         <div style="display: flex; gap: 15px; margin-bottom: 20px;">
                             <div style="flex: 1;">
-                                <label asp-for="FirstName" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px;">Emri</label>
-                                <input asp-for="FirstName" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; color: #2d3748; font-size: 15px;" />
-                                <span asp-validation-for="FirstName" style="color: #dc3545; font-size: 12px; display: block; margin-top: 5px;"></span>
+                                <span style="display: block; margin-bottom: 4px; font-size: 12px; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px;">First Name</span>
+                                <div style="font-size: 16px; color: #2d3748; font-weight: 500;">@Model.FirstName</div>
                             </div>
                             <div style="flex: 1;">
-                                <label asp-for="LastName" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px;">Mbiemri</label>
-                                <input asp-for="LastName" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; color: #2d3748; font-size: 15px;" />
-                                <span asp-validation-for="LastName" style="color: #dc3545; font-size: 12px; display: block; margin-top: 5px;"></span>
+                                <span style="display: block; margin-bottom: 4px; font-size: 12px; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px;">Last Name</span>
+                                <div style="font-size: 16px; color: #2d3748; font-weight: 500;">@Model.LastName</div>
                             </div>
                         </div>
 
                         <div style="margin-bottom: 30px;">
-                            <label asp-for="DateOfBirth" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px;">Datëlindja</label>
-                            <input asp-for="DateOfBirth" type="date" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; color: #2d3748; font-size: 15px;" />
-                            <span asp-validation-for="DateOfBirth" style="color: #dc3545; font-size: 12px; display: block; margin-top: 5px;"></span>
+                            <span style="display: block; margin-bottom: 4px; font-size: 12px; font-weight: 600; color: #718096; text-transform: uppercase; letter-spacing: 0.5px;">Birthdate</span>
+                            <div style="font-size: 16px; color: #2d3748; font-weight: 500;">@(Model.DateOfBirth?.ToString("dd/MM/yyyy") ?? "Not entered")</div>
                         </div>
+                    </div>
 
-                        <button type="submit" style="width: 100%; background-color: #008080; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 16px; cursor: pointer; transition: background-color 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                            <i class="fas fa-save"></i> Ruaj Ndryshimet
-                        </button>
-                    </form>
+                    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
+                        <a asp-action="Edit" style="background-color: #008080; color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 15px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s;">
+                            <i class="fas fa-edit"></i> Update Information
+                        </a>
+
+                        <a asp-action="ChangePassword" style="background-color: #4a5568; color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 15px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s;">
+                            <i class="fas fa-key"></i> Change Password
+                        </a>
+
+                        <a asp-action="DeleteConfirmation" style="background-color: #dc3545; color: white; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 15px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; transition: opacity 0.2s;">
+                            <i class="fas fa-trash-alt"></i> Delete Account
+                        </a>
+                    </div>
                 </div>
 
                 <div style="flex: 1.2; min-width: 320px; display: flex; flex-direction: column;">
                     <h3 style="margin-top: 0; margin-bottom: 25px; font-size: 18px; font-weight: 600; color: #2d3748; display: flex; align-items: center;">
-                        <i class="fas fa-shopping-bag" style="color: #008080; margin-right: 10px;"></i> Historiku i Blerjeve
+                        <i class="fas fa-shopping-bag" style="color: #008080; margin-right: 10px;"></i> Order History
                     </h3>
                     
                     @if (Model.OrderHistory != null && Model.OrderHistory.Any())
@@ -73,8 +84,8 @@
                             <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px;">
                                 <thead>
                                     <tr style="border-bottom: 2px solid #edf2f7; color: #718096; text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px;">
-                                        <th style="padding: 12px 8px;">Data</th>
-                                        <th style="padding: 12px 8px;">Totali</th>
+                                        <th style="padding: 12px 8px;">Date</th>
+                                        <th style="padding: 12px 8px;">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody style="color: #4a5568;">
@@ -95,10 +106,10 @@
                             <div style="font-size: 50px; color: #cbd5e1; margin-bottom: 15px;">
                                 <i class="fas fa-box-open" style="color: #008080; opacity: 0.3;"></i>
                             </div>
-                            <h4 style="margin: 0 0 8px 0; color: #4a5568; font-size: 16px; font-weight: 600;">Nuk keni bërë asnjë blerje deri më tani.</h4>
-                            <p style="margin: 0 0 20px 0; color: #718096; font-size: 13px;">Porositë që do të kryeni në vazhdim do të listohen këtu.</p>
+                            <h4 style="margin: 0 0 8px 0; color: #4a5568; font-size: 16px; font-weight: 600;">You haven't made any purchases yet.</h4>
+                            <p style="margin: 0 0 20px 0; color: #718096; font-size: 13px;">Future orders you place will be listed here.</p>
                             <a asp-controller="Home" asp-action="Shop" style="background-color: #008080; color: white; text-decoration: none; padding: 8px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; display: inline-block; transition: opacity 0.2s;">
-                                Shko te Dyqani
+                                Continue Shopping
                             </a>
                         </div>
                     }
@@ -109,7 +120,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}

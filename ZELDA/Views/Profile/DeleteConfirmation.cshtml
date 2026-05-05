@@ -1,0 +1,63 @@
+﻿@model ZELDA.ViewModels.ProfileViewModel
+
+<div style="background-color: #f4f7f6; min-height: 100vh; padding-top: 100px; padding-bottom: 50px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <div style="max-width: 650px; margin: 0 auto; padding: 0 20px;">
+        
+        <div style="background-color: #ffffff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); border: 1px solid #e2e8f0; overflow: hidden;">
+            
+            <div style="background-color: #dc3545; color: #ffffff; padding: 30px; display: flex; align-items: center;">
+                <div style="background-color: rgba(255, 255, 255, 0.2); width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 24px;"></i>
+                </div>
+                <div>
+                    <h2 style="margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.5px;">Delete Account</h2>
+                    <p style="margin: 5px 0 0 0; color: rgba(255, 255, 255, 0.85); font-size: 14px;">This action cannot be undone.</p>
+                </div>
+            </div>
+
+            <div style="padding: 40px;">
+                
+                <div style="background-color: #fff5f5; border-left: 4px solid #dc3545; padding: 20px; border-radius: 4px; margin-bottom: 30px;">
+                    <h3 style="margin-top: 0; color: #9b2c2c; font-size: 18px; font-weight: 600;">Are you absolutely sure?</h3>
+                    <p style="color: #742a2a; font-size: 15px; line-height: 1.5; margin: 8px 0 0 0;">
+                        You are about to permanently delete your account and remove all your profile data from <strong>ZELDA</strong>.
+                        Once confirmed, you will lose access to your order logs and account preferences permanently.
+                    </p>
+                </div>
+
+                <h4 style="margin-top: 0; margin-bottom: 15px; font-size: 14px; font-weight: 700; color: #4a5568; text-transform: uppercase; letter-spacing: 0.5px;">
+                    Account Data Summary:
+                </h4>
+                
+                <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 35px;">
+                    <div style="margin-bottom: 12px; display: flex; justify-content: space-between; border-bottom: 1px solid #edf2f7; padding-bottom: 8px;">
+                        <span style="color: #718096; font-size: 14px;">Full Name:</span>
+                        <span style="color: #2d3748; font-weight: 600; font-size: 14px;">@Model.FirstName @Model.LastName</span>
+                    </div>
+                    <div style="margin-bottom: 12px; display: flex; justify-content: space-between; border-bottom: 1px solid #edf2f7; padding-bottom: 8px;">
+                        <span style="color: #718096; font-size: 14px;">Email Address:</span>
+                        <span style="color: #2d3748; font-weight: 600; font-size: 14px;">@Model.Email</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding-bottom: 4px;">
+                        <span style="color: #718096; font-size: 14px;">Date of Birth:</span>
+                        <span style="color: #2d3748; font-weight: 600; font-size: 14px;">@(Model.DateOfBirth?.ToString("dd/MM/yyyy") ?? "Not provided")</span>
+                    </div>
+                </div>
+
+                <form asp-action="DeleteAccountConfirmed" method="post">
+                    <div style="display: flex; gap: 15px;">
+                        <a asp-action="Index" style="flex: 1; text-align: center; background-color: #e2e8f0; color: #4a5568; text-decoration: none; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 15px; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s;">
+                            No, Keep My Account
+                        </a>
+                        
+                        <button type="submit" style="flex: 1.2; background-color: #dc3545; color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 600; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background-color 0.2s;">
+                            <i class="fas fa-trash-alt"></i> Yes, Delete Permanently
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+            
+        </div>
+    </div>
+</div>

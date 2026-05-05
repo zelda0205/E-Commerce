@@ -1,0 +1,51 @@
+﻿@model ZELDA.ViewModels.ProfileViewModel
+
+<div style="background-color: #f4f7f6; min-height: 100vh; padding-top: 100px; padding-bottom: 50px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <div style="max-width: 600px; margin: 0 auto; padding: 0 20px;">
+        <div style="background-color: #ffffff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); border: 1px solid #e2e8f0; overflow: hidden;">
+            
+            <div style="background-color: #008080; color: #ffffff; padding: 25px; display: flex; align-items: center;">
+                <h2 style="margin: 0; font-size: 20px; font-weight: 700;">Update Personal Details</h2>
+            </div>
+
+            <div style="padding: 30px;">
+                <form asp-action="Edit" method="post">
+                    <div asp-validation-summary="ModelOnly" style="color: #dc3545; margin-bottom: 15px; font-size: 14px;"></div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label asp-for="Email" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #718096; text-transform: uppercase;">Email (Cannot be changed)</label>
+                        <input asp-for="Email" readonly style="width: 100%; padding: 10px 14px; border: 1px solid #e2e8f0; border-radius: 8px; background-color: #f7fafc; color: #4a5568;" />
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label asp-for="FirstName" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #718096; text-transform: uppercase;">First Name</label>
+                        <input asp-for="FirstName" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; color: #2d3748;" />
+                        <span asp-validation-for="FirstName" style="color: #dc3545; font-size: 12px; display: block; margin-top: 5px;"></span>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label asp-for="LastName" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #718096; text-transform: uppercase;">Last Name</label>
+                        <input asp-for="LastName" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; color: #2d3748;" />
+                        <span asp-validation-for="LastName" style="color: #dc3545; font-size: 12px; display: block; margin-top: 5px;"></span>
+                    </div>
+
+                    <div style="margin-bottom: 30px;">
+                        <label asp-for="DateOfBirth" style="display: block; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #718096; text-transform: uppercase;">Birthdate</label>
+                        <input asp-for="DateOfBirth" type="date" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; color: #2d3748;" />
+                        <span asp-validation-for="DateOfBirth" style="color: #dc3545; font-size: 12px; display: block; margin-top: 5px;"></span>
+                    </div>
+
+                    <div style="display: flex; gap: 15px;">
+                        <a asp-action="Index" style="flex: 1; text-align: center; background-color: #e2e8f0; color: #4a5568; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: 600;">Cancel</a>
+                        <button type="submit" style="flex: 2; background-color: #008080; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer;">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
