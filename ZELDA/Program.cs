@@ -56,12 +56,21 @@ else
 }
 
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+
 app.UseRouting();
+
 app.UseCookiePolicy();
+
 app.UseSession();
+
 app.UseAuthentication();
+
 app.UseAuthorization();
+//added for api
+app.MapControllers();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")

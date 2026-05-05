@@ -7,6 +7,12 @@
 }
 
 <style>
+    .text-success {
+        color: #198754 !important;
+    }
+    .text-danger {
+        color: #dc3545 !important;
+    }
     .admin-container {
         padding: 60px 40px 20px 40px;
     }
@@ -47,6 +53,15 @@
             font-size: 2.4rem;
             font-weight: 700;
         }
+
+    .chart-wrapper {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 30px;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+        margin-bottom: 40px;
+        border: 1px solid #eef2f5;
+    }
 
     .admin-grid {
         display: grid;
@@ -94,20 +109,19 @@
     }
 
     .primary {
-        background: var(--primary-color);
+        background: var(--primary-color, #008080); 
         color: #fff;
     }
 
         .primary:hover {
             background: #fff;
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
+            color: var(--primary-color, #008080);
+            border: 1px solid var(--primary-color, #008080);
         }
 
     .admin-card.border-Outline {
-        border-left: 6px solid var(--primary-color);
+        border-left: 6px solid var(--primary-color, #008080);
     }
-
 </style>
 
 <div class="admin-container">
@@ -117,38 +131,22 @@
     <div class="stats-grid">
         <div class="stat-card">
             <p>Total Users</p>
-            @if (Model.TotalNumberOfUsers == 0)
-            {
-                <h2>--</h2>
-            }
-            else
-            {
-                <h2>@Model.TotalNumberOfUsers</h2>
-            }
+            <h2>@(Model.TotalNumberOfUsers == 0 ? "--" : Model.TotalNumberOfUsers.ToString())</h2>
         </div>
 
         <div class="stat-card">
             <p>Total Orders</p>
-            @if (Model.TotalNumberOfOrders == 0)
-            {
-                <h2>--</h2>
-            }
-            else
-            {
-                <h2>@Model.TotalNumberOfOrders</h2>
-            }
+            <h2>@(Model.TotalNumberOfOrders == 0 ? "--" : Model.TotalNumberOfOrders.ToString())</h2>
         </div>
 
         <div class="stat-card">
             <p>Feedback</p>
-            @if (Model.TotalNumberFeedbacks == 0)
-            {
-                <h2>--</h2>
-            }
-            else
-            {
-                <h2>@Model.TotalNumberFeedbacks</h2>
-            }
+            <h2>@(Model.TotalNumberFeedbacks == 0 ? "--" : Model.TotalNumberFeedbacks.ToString())</h2>
+        </div>
+        <div class="stat-card">
+            <p>Total Sales</p>
+            <h2 id="totalSales">--</h2>
+            <div id="salesIncrease" style="font-size: 0.9rem; font-weight: 600; margin-top: 5px;"></div>
         </div>
     </div>
 
@@ -156,7 +154,6 @@
         <div class="admin-card border-Outline">
             <h3>Products</h3>
             <p>Add, edit or delete products</p>
-
             <div class="admin-actions">
                 <a class="btn primary" asp-controller="Products" asp-action="Create">Add Product</a>
                 <a class="btn primary" asp-controller="Products" asp-action="Index">Manage Products</a>
@@ -166,7 +163,6 @@
         <div class="admin-card border-Outline">
             <h3>Categories</h3>
             <p>View existing categories</p>
-
             <div class="admin-actions">
                 <a class="btn primary" asp-controller="Categories" asp-action="Index">View Categories</a>
             </div>
@@ -175,7 +171,6 @@
         <div class="admin-card border-Outline">
             <h3>Feedback</h3>
             <p>View or delete feedback messages</p>
-
             <div class="admin-actions">
                 <a class="btn primary" asp-controller="ContactUs" asp-action="Index">Manage Feedbacks</a>
             </div>
@@ -184,7 +179,6 @@
         <div class="admin-card border-Outline">
             <h3>Users</h3>
             <p>Manage registered users</p>
-
             <div class="admin-actions">
                 <a class="btn primary" asp-action="Users" asp-controller="Admin">Manage Users</a>
             </div>
@@ -193,7 +187,6 @@
         <div class="admin-card border-Outline">
             <h3>News Letter</h3>
             <p>Manage News Letters</p>
-
             <div class="admin-actions">
                 <a class="btn primary" asp-action="Index" asp-controller="NewsLetters">Manage News Letters</a>
             </div>
@@ -202,10 +195,80 @@
         <div class="admin-card border-Outline">
             <h3>Orders</h3>
             <p>Manage Orders By Clients</p>
-
             <div class="admin-actions">
                 <a class="btn primary" asp-action="Index" asp-controller="Orders">Manage Orders</a>
             </div>
         </div>
     </div>
+
+    <div class="chart-wrapper">
+        <h3 class="fw-bold mb-4" style="font-size: 1.25rem; color: #334155;">Completed Orders by Month</h3>
+        <canvas id="ordersAnalyticsChart" style="max-height: 320px; width: 100%;"></canvas>
+    </div>
 </div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    
+
+        fetch('/api/adminapi/sales-stats')
+        .then(res => {
+        if (!res.ok) throw new Error("Gabim te sales-stats");
+        return res.json();
+        })
+        .then(d => {
+
+        if (d && d.total !== undefined) {
+        document.getElementById('totalSales').innerText = d.total.toLocaleString() + ' €';
+                
+        if (d.increase !== undefined) {
+        var icon = d.increase >= 0 ? '↑' : '↓';
+        var color = d.increase >= 0 ? 'text-success' : 'text-danger';
+        document.getElementById('salesIncrease').innerHTML =
+        `<span class="${color}">${d.increase}% ${icon} compared to last month</span>`;
+        }
+        }
+        })
+        .catch(err => {
+        console.error("Gabim te Sales Stats:", err);
+        document.getElementById('totalSales').innerText = "0 €";
+        });
+
+
+        fetch('/api/adminapi/orders-by-month')
+        .then(res => {
+        if (!res.ok) throw new Error("Gabim te orders-by-month");
+        return res.json();
+        })
+        .then(data => {
+        if (data && data.labels && data.values) {
+        const ctx = document.getElementById('ordersAnalyticsChart').getContext('2d');
+        new Chart(ctx, {
+        type: 'bar',
+        data: {
+        labels: data.labels,
+        datasets: [{
+        label: 'Number of Orders',
+        data: data.values,
+        backgroundColor: 'rgba(0, 128, 128, 0.2)',
+        borderColor: '#008080',
+        borderWidth: 2,
+        borderRadius: 6
+        }]
+        },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+        }
+        });
+        }
+        })
+        .catch(err => console.error("Gabim gjatë krijimit të grafikut:", err));
+        });
+    </script>
+}
