@@ -107,10 +107,17 @@
         </div>
     </section>
 
-    <div>
+    @* <div>
         @RenderBody()
+    </div> *@
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
 
+    <partial name="_CookieConsentPartial" />
 
 
     <footer class="section-p1">
