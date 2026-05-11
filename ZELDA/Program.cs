@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using ZELDA.Data;
+using ZELDA.Filters;
 using ZELDA.Models;
 using ZELDA.Seeders;
 
@@ -33,6 +34,11 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 {
     options.CheckConsentNeeded = context => true;
     options.MinimumSameSitePolicy = SameSiteMode.None;
+});
+
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<MostSoldFilter>();
 });
 
 var services = builder.Services;

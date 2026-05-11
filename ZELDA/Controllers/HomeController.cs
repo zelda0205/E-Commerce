@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 using ZELDA.Data;
+using ZELDA.Filters;
 using ZELDA.Models;
 using ZELDA.ViewModels;
 
@@ -19,7 +20,27 @@ namespace ZELDA.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await GetProductsAndCategories());
+            var viewModel = await GetProductsAndCategories(false);
+            return View(viewModel); 
+        }
+
+        [HttpGet]
+        [MostSoldFilter]
+        public async Task<IActionResult> GetTrendingProducts()
+        {
+            var query = _context.Products.Include(p => p.Category).AsQueryable();
+
+            if (HttpContext.Items["IsMostSold"] is bool isMostSold && isMostSold)
+            {
+                query = query.OrderByDescending(p => p.OrderItems.Sum(oi => oi.Quantity));
+            }
+            else
+            {
+                query = query.OrderByDescending(p => p.CreatedAt);
+            }
+
+            var products = await query.Take(8).ToListAsync();
+            return PartialView("_ProductListPartial", products);
         }
 
         public async Task<IActionResult> Shop()
@@ -98,15 +119,24 @@ namespace ZELDA.Controllers
             return View(viewModel);
         }
 
-        private async Task<ProductAndCategoryViewModel> GetProductsAndCategories()
+        private async Task<ProductAndCategoryViewModel> GetProductsAndCategories(bool sortByMostSold = false)
         {
-            var products = await _context.Products.ToListAsync();
-            var categories = await _context.Categories.ToListAsync();
+
+            IQueryable<Product> productQuery = _context.Products;
+
+            if (sortByMostSold)
+            {
+                productQuery = productQuery.OrderByDescending(p => p.OrderItems.Sum(oi => oi.Quantity));
+            }
+            else
+            {
+                productQuery = productQuery.OrderByDescending(p => p.CreatedAt);
+            }
 
             return new ProductAndCategoryViewModel
             {
-                Products = products,
-                Categories = categories
+                Products = await productQuery.Take(8).ToListAsync(), 
+                Categories = await _context.Categories.ToListAsync()
             };
         }
 

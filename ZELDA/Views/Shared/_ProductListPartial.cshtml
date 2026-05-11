@@ -1,0 +1,18 @@
+﻿@model IEnumerable<ZELDA.Models.Product>
+
+@foreach (var product in Model)
+{
+    <div class="pro">
+        <img src="/ProductsImages/@product.Image" alt="@product.Name">
+        
+        <div class="des">
+            <h5>@product.Name</h5>
+            <div class="shopping-cart-container">
+                <h4>@product.Price €</h4>
+                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.ProductID" class="cart-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+}

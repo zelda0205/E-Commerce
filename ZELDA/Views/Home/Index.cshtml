@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Home";
+    var isMostSold = Context.Request.Query["sort"] == "mostsold";
 }
 
 @model ProductAndCategoryViewModel
@@ -29,7 +30,7 @@
     <h2>Categories</h2>
     <p>Find Your Style</p>
 
-    <div class="pro-cotainer">
+    <div class="pro-container">
         @foreach (Category category in Model.Categories)
         {
             <div class="pro">
@@ -67,27 +68,40 @@
 <section id="product1" class="section-p1 featureProductsReveal">
     <h2>Featured Products</h2>
     <p>Summer Collection New Modern Designs</p>
-    <div class="pro-cotainer">
-        @foreach (Product product in Model.Products)
-        {
-            <div class="pro">
-                <img src="/ProductsImages/@product.Image" alt="Product Image">
-                <div class="des">
-                    <h5>@product.Name</h5>
-
-                    <div class="shopping-cart-container">
-                        <h4>@product.Price €</h4>
-                        <a asp-controller="Cart"
-                           asp-action="AddToCart"
-                           asp-route-id="@product.ProductID"
-                           class="cart-icon">
-                            <i class="fa-solid fa-bag-shopping"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        }
+    <div class="filter-buttons-container">
+        <button type="button" onclick="filterData('mostsold')" class="btn-cute">
+            <i class="bi bi-fire"></i> Most Sold
+        </button>
+        <button type="button" onclick="filterData('all')" class="btn-cute">
+            All Products
+        </button>
     </div>
+
+    <div class="pro-container" id="product-container">
+        @await Html.PartialAsync("_ProductListPartial", Model.Products)
+    </div>
+
+    @section Scripts {
+        <script>
+                                function filterData(sortType) {
+                    $("#product-container").css("opacity", "0.5");
+
+                    $.ajax({
+                        url: '@Url.Action("GetTrendingProducts", "Home")',
+                        type: 'GET',
+                        data: { sort: sortType },
+                        success: function (result) {
+                            $("#product-container").html(result);
+                            $("#product-container").css("opacity", "1");
+                        },
+                        error: function () {
+                            console.log("Error loading products");
+                            $("#product-container").css("opacity", "1");
+                        }
+                    });
+                }
+        </script>
+    }
 </section>
 
 <!--banners-->

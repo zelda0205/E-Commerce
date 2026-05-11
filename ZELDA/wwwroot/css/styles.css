@@ -269,6 +269,40 @@ body {
     }
 
 /* BUTTON */
+
+.filter-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px; 
+    margin: 20px 0 40px 0;
+}
+
+.btn-cute {
+    background-color: #088178; 
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 50px; 
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(8, 129, 120, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+    .btn-cute:hover {
+        background-color: #066a63;
+        transform: translateY(-3px); 
+        box-shadow: 0 6px 20px rgba(8, 129, 120, 0.3);
+    }
+
+    .btn-cute:active {
+        transform: translateY(-1px);
+    }
+
 .btn-primary {
     display: inline-block;
     padding: 12px 30px;
@@ -347,7 +381,7 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
-    #product1 .pro-cotainer {
+    #product1 .pro-container {
         display: flex;
         justify-content: space-between;
         padding-top: 40px;

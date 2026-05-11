@@ -21,3 +21,5 @@ new Typed('#firstText', {
     backSpeed: 100,
     smartBackspace: true,
 });
+
+
