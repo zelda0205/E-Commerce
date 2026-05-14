@@ -17,6 +17,8 @@ namespace ZELDA.Models
         [Display(Name = "Total Amount")]
         public decimal TotalAmount { get; set; }
 
+        public string? PayPalOrderId { get; set; }
+
         [Display(Name = "Order Items")]
         public virtual ICollection<OrderItem>? OrderItems { get; set; }
     }

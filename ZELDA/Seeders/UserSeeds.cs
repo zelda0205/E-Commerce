@@ -37,7 +37,9 @@ namespace ZELDA.Seeders
                     {
                         UserName = adminEmail,
                         Email = adminEmail,
-                        EmailConfirmed = true
+                        EmailConfirmed = true,
+                        FirstName = "Admin",
+                        LastName = "User"
                     };
 
                     var result = await userManager.CreateAsync(adminUser, adminPassword);

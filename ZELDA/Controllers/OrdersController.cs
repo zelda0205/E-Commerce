@@ -24,50 +24,56 @@ namespace ZELDA.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        [Authorize(Roles = "User,Admin")]
+        [Authorize]
         public async Task<IActionResult> Create()
         {
-            Order order = new Order();
+            var cartDetails = GetCart(); 
 
-            var cartDetails = GetCart();
-
-            order.OrderDate = DateTime.Now;
-            order.TotalAmount = cartDetails.GrandTotal;
-
-            var userEmail = HttpContext!.User!.Identity!.Name;
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
-
-            if (user == null)
+            if (cartDetails.Items.Count == 0)
             {
-                return Unauthorized();
+                return RedirectToAction("Index", "Cart");
             }
 
-            order.UserId = user.Id;
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+          
+            var userEmail = User.Identity?.Name;
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
+
+            if (user == null) return Unauthorized();
 
 
-            foreach (var item in cartDetails.Items)
+            var order = new Order
             {
-                var orderItem = new OrderItem
+                UserId = user.Id,
+                OrderDate = DateTime.Now,
+                TotalAmount = cartDetails.GrandTotal,
+                OrderItems = cartDetails.Items.Select(item => new OrderItem
                 {
-                    OrderID = order.OrderID,
                     ProductID = item.ProductID,
                     Quantity = item.Quantity,
                     Price = item.Price
-                };
+                }).ToList()
+            };
 
-                _context.Add(orderItem);
-            }
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync(); 
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(OrderSuccsessfull));
+            cartDetails.OrderID = order.OrderID;
+            return View("ConfirmCheckout", cartDetails);
         }
 
-        [Authorize(Roles = "User,Admin")]
-        public IActionResult OrderSuccsessfull()
+        [Authorize]
+        public async Task<IActionResult> OrderSuccessfull(int id, string payPalId)
         {
-            return View();
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.OrderID == id);
+
+            if (order != null)
+            {
+                order.PayPalOrderId = payPalId;
+                HttpContext.Session.Remove("Cart");
+                return View( order);
+            }
+
+            return NotFound();
         }
 
         [Authorize(Roles = "Admin")]

@@ -25,7 +25,6 @@ namespace ZELDA.Controllers
             _context = context;
         }
 
-        // 1. READ-ONLY PROFILE DASHBOARD
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -49,7 +48,6 @@ namespace ZELDA.Controllers
             return View(model);
         }
 
-        // 2. GET: EDIT PERSONAL INFO FORM
         [HttpGet]
         public async Task<IActionResult> Edit()
         {
@@ -67,12 +65,10 @@ namespace ZELDA.Controllers
             return View(model);
         }
 
-        // POST: EDIT PERSONAL INFO FORM
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ProfileViewModel model)
         {
-            // Remove OrderHistory validation check since it's not present on this form
             ModelState.Remove(nameof(model.OrderHistory));
 
             if (!ModelState.IsValid)
@@ -102,14 +98,12 @@ namespace ZELDA.Controllers
             return View(model);
         }
 
-        // 3. GET: CHANGE PASSWORD FORM
         [HttpGet]
         public IActionResult ChangePassword()
         {
             return View(new ChangePasswordViewModel());
         }
 
-        // POST: CHANGE PASSWORD
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
@@ -135,8 +129,6 @@ namespace ZELDA.Controllers
             return View(model);
         }
 
-        // 4. POST: DELETE ACCOUNT
-        // 1. GET: Shfaq faqen e konfirmimit të fshirjes me të dhënat e përdoruesit
         [HttpGet]
         public async Task<IActionResult> DeleteConfirmation()
         {
@@ -154,27 +146,21 @@ namespace ZELDA.Controllers
             return View(model);
         }
 
-        // 2. POST: Ekzekuton fshirjen përfundimtare pas konfirmimit
         [HttpPost]
-        [ActionName("DeleteAccountConfirmed")] // Ndryshojmë emrin për siguri
+        [ActionName("DeleteAccountConfirmed")] 
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteAccountConfirmed()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return NotFound();
 
-            // Çaktivizojmë seancën (Sign Out)
             await _signInManager.SignOutAsync();
 
-            // Fshijmë përdoruesin nga databaza e Identity
             var result = await _userManager.DeleteAsync(user);
             if (result.Succeeded)
             {
-                // Ju ridrejton tek faqja e regjistrimit ose login-it
                 return RedirectToAction("Register", "Account");
             }
-
-            // Nëse dështon për ndonjë arsye, e kyçim sërish dhe njoftojmë
             await _signInManager.SignInAsync(user, isPersistent: false);
             TempData["ErrorMessage"] = "Something went wrong while trying to delete your account.";
             return RedirectToAction(nameof(Index));

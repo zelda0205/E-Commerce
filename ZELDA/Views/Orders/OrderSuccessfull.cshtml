@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewData["Title"] = "OrderSuccsessfull";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success - Thank You</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+            .success-container {
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            }
+
+            .thank-you-card {
+                background: white;
+                padding: 3rem;
+                border-radius: 20px;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+                text-align: center;
+                transform: translateY(0);
+                transition: transform 0.3s ease;
+            }
+
+            .check-mark {
+                width: 80px;
+                height: 80px;
+                background: #28a745;
+                color: white;
+                border-radius: 50%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 40px;
+                margin-bottom: 1.5rem;
+            }
+    </style>
+</head>
+<body>
+
+    <div class="success-container">
+        <div class="thank-you-card">
+            <div class="check-mark">✓</div>
+            <h1 class="display-5 fw-bold">Thank you for your trust!</h1>
+            <p class="lead text-muted">Your payment was successful and your order is being processed.</p>
+        
+            <hr class="my-4">
+        
+            <p>Redirecting you back to the home page in <span id="timer" class="fw-bold text-primary">5</span> seconds...</p>
+        
+            <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary btn-sm">
+                Click here if you aren't redirected
+            </a>
+        </div>
+    </div>
+
+    <script>
+            let timeLeft = 5;
+            const timerElement = document.getElementById('timer');
+            const redirectUrl = '@Url.Action("Index", "Home")';
+
+            const countdown = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+        
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    window.location.href = redirectUrl;
+                }
+            }, 1000);
+    </script>
+
+</body>
+</html>
+

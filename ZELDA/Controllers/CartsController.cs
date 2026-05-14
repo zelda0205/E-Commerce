@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity; 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-
+using System.Security.Claims;        
 using ZELDA.Data;
+using ZELDA.Models;
 using ZELDA.ViewModels;
 
 namespace ZELDA.Controllers
@@ -21,7 +24,7 @@ namespace ZELDA.Controllers
             var cart = GetCart();
             return View(cart);
         }
-        [Authorize(Roles = "Admin, User")]
+        [Authorize]
         public IActionResult AddToCart(int id)
         {
             if (User != null && User.Identity != null && !User.Identity.IsAuthenticated)
@@ -59,7 +62,7 @@ namespace ZELDA.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "Admin,User")]
+        [Authorize]
         public IActionResult Remove(int id)
         {
             var cart = GetCart();
@@ -74,7 +77,7 @@ namespace ZELDA.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "Admin,User")]
+        [Authorize]
         public IActionResult Increase(int id)
         {
             var cart = GetCart();
@@ -89,7 +92,7 @@ namespace ZELDA.Controllers
             return RedirectToAction("Index");
         }
        
-        [Authorize(Roles = "Admin,User")]
+        [Authorize]
         public IActionResult Decrease(int id)
         {
             var cart = GetCart();
@@ -108,11 +111,37 @@ namespace ZELDA.Controllers
             return RedirectToAction("Index");
         }
 
-        [Authorize(Roles = "Admin,User")]
+        [Authorize]
         [HttpGet]
-        public IActionResult ConfirmCheckout()
+        public async Task<IActionResult> ConfirmCheckout()
         {
             var cart = GetCart();
+
+            if (cart.Items.Count == 0)
+            {
+                return RedirectToAction("Index");
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var order = new Order
+            {
+                UserId = userId,
+                TotalAmount = cart.GrandTotal,
+                OrderDate = DateTime.Now,
+                OrderItems = cart.Items.Select(i => new OrderItem
+                {
+                    ProductID = i.ProductID,
+                    Quantity = i.Quantity,
+                    Price = i.Price
+                }).ToList()
+            };
+
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+
+            cart.OrderID = order.OrderID;
+
             return View(cart);
         }
 
